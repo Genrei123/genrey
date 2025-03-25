@@ -72,6 +72,21 @@ export const link = defineType({
         }),
     }),
     defineField({
+      name: 'project',
+      title: 'project',
+      type: 'reference',
+      to: [{type: 'project'}],
+      hidden: ({parent}) => parent?.linkType !== 'project',
+      validation: (Rule) =>
+        // Custom validation to ensure project reference is provided if the link type is 'project'
+        Rule.custom((value, context: any) => {
+          if (context.parent?.linkType === 'project' && !value) {
+            return 'project reference is required when Link Type is project'
+          }
+          return true
+        }),
+    }),
+    defineField({
       name: 'openInNewTab',
       title: 'Open in new tab',
       type: 'boolean',

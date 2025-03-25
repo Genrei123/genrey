@@ -44,6 +44,11 @@ export function linkResolver(link: Link | undefined) {
       if (link?.post && typeof link.post === "string") {
         return `/posts/${link.post}`;
       }
+
+    case "project":
+      if (link?.project && typeof link.project === "string") {
+        return `/projects/${link.project}`;
+      }
     default:
       return null;
   }

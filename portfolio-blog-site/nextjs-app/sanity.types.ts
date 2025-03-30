@@ -45,7 +45,7 @@ export type SanityFileAsset = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  originalFilename?: string;
+  originalFilename?: string; 
   label?: string;
   title?: string;
   description?: string;

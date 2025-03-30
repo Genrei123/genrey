@@ -4,7 +4,7 @@ import Image from "next/image"
 
 import { sanityFetch } from "@/sanity/lib/live"
 import { allProjectsQuery, moreProjectQuery } from "@/sanity/lib/queries"
-import type { Project as ProjectType } from "../../sanity.types"
+import type { Project as ProjectType } from "@/sanity.types"
 import DateComponent from "@/app/components/Date"
 import OnBoarding from "@/app/components/Onboarding"
 

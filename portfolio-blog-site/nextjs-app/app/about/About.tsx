@@ -1,22 +1,20 @@
 // ./about/About.tsx
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer'; // For triggering animations on view
+import { useInView } from 'react-intersection-observer';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 interface AboutProps {
   id: string;
-  // Pass setActiveSection if you want this component to potentially update it,
-  // though SectionWrapper usually handles this via scroll. Let's keep it simple for now.
-  // setActiveSection: (section: string) => void; 
 }
 
-// Animation Variants for staggering content
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // Stagger delay between children
-      delayChildren: 0.3,   // Wait before starting children animations
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
     },
   },
 };
@@ -30,108 +28,126 @@ const itemVariants = {
   },
 };
 
+// Resume Viewer Component
+const ResumeViewer = ({ onClose }: { onClose: () => void }) => {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+      <div className="relative w-full max-w-4xl h-[90vh] bg-gray-900 rounded-lg overflow-hidden">
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <iframe 
+          src="/resume.pdf" 
+          className="w-full h-full"
+          frameBorder="0"
+          title="Resume"
+        >
+          <p>Your browser does not support PDFs. <a href="/resume.pdf">Download the resume</a> instead.</p>
+        </iframe>
+      </div>
+    </div>
+  );
+};
+
 const About = ({ id }: AboutProps) => {
   const { ref, inView } = useInView({
-    triggerOnce: true, // Only trigger once
-    threshold: 0.2,    // Trigger when 20% of the element is visible
+    triggerOnce: true,
+    threshold: 0.2,
   });
+  const [showResume, setShowResume] = useState(false);
+
+  // Close resume viewer when pressing Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowResume(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
-    // Section container - Apply hover effect here
-    <motion.section
-      id={id}
-      ref={ref} // Attach ref for useInView
-      className="relative min-h-[70vh] sm:min-h-[80vh] flex items-center py-20 sm:py-28 overflow-hidden cursor-pointer" // Added cursor-pointer
-      initial="hidden"
-      animate={inView ? "visible" : "hidden"} // Animate based on inView status
-      whileHover={{
-        // --- Background Hover Effect ---
-        // Option 1: Simple Background Color Change
-         // backgroundColor: 'rgba(16, 185, 129, 0.1)', // Example: Subtle green tint
-         
-        // Option 2: Subtle Gradient Shift (Requires bg-gradient-to-...)
-         // backgroundImage: 'linear-gradient(to bottom right, #0a192f, #112240, #0f3460)', // Example shift
-         
-        // Option 3: Add a pseudo-element overlay (More complex, might need CSS)
-        // --- Choose ONE effect ---
-      }}
-      // Add a transition for the hover effect itself
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      style={{ 
-        // Default background - Can be set here or via Tailwind class
-        // This ensures the transition works smoothly from the default state
-         backgroundColor: '#0a192f', // Match the main background or make slightly different
-         // Use background gradients carefully with hover transitions in Framer Motion directly
-         // A CSS transition on background might be smoother for gradients
-         transition: 'background-color 0.4s ease-in-out' // CSS fallback/enhancement
-      }}
-    >
-       {/* Optional: Add a subtle animated background pattern or shapes */}
-       {/* <AnimatedBackgroundShapes /> */}
-
-      <div className="container mx-auto px-4 z-10 relative">
-         {/* Use variants for staggered animation */}
-         <motion.div 
+    <>
+      {showResume && <ResumeViewer onClose={() => setShowResume(false)} />}
+      
+      <motion.section
+        id={id}
+        ref={ref}
+        className="relative min-h-[70vh] sm:min-h-[80vh] flex items-center py-20 sm:py-28 overflow-hidden cursor-pointer"
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+        style={{ 
+          backgroundColor: '#0a192f',
+          transition: 'background-color 0.4s ease-in-out'
+        }}
+      >
+        <div className="container mx-auto px-4 z-10 relative">
+          <motion.div 
             className="max-w-4xl mx-auto text-center md:text-left"
-            variants={containerVariants} // Apply container variants here
+            variants={containerVariants}
           >
-          <motion.h2 
-            variants={itemVariants} // Item animation
-            className="text-3xl sm:text-4xl font-bold text-white mb-6 inline-block relative pb-2"
-          >
-            About Me
-             {/* Animated underline (similar to SectionWrapper) */}
-             <motion.span 
+            <motion.h2 
+              variants={itemVariants}
+              className="text-3xl sm:text-4xl font-bold text-white mb-6 inline-block relative pb-2"
+            >
+              About Me
+              <motion.span 
                 className="absolute bottom-0 left-0 h-1 bg-cyan-400"
                 initial={{ width: 0 }}
-                animate={{ width: inView ? '60%' : 0 }} // Animate width based on inView
-                transition={{ duration: 0.6, delay: 0.8 }} // Delay after text appears
-             />
-          </motion.h2>
+                animate={{ width: inView ? '60%' : 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              />
+            </motion.h2>
 
-          {/* Example Layout: Text on Left, Image on Right (Desktop) */}
-          <div className="md:flex md:items-center md:space-x-12">
-             <motion.div 
+            <div className="md:flex md:items-center md:space-x-12">
+              <motion.div 
                 className="md:w-2/3"
-                variants={itemVariants} // Item animation
+                variants={itemVariants}
               >
-               <p className="text-lg sm:text-xl text-gray-300 mb-4 leading-relaxed">
-                 Hi there! I'm Genrey, a passionate Full-Stack Developer specializing in creating modern, interactive web applications. I thrive on turning complex problems into elegant solutions.
-               </p>
-               <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">
-                 With experience in React, Next.js, Node.js, and databases like PostgreSQL and MongoDB, I love bringing ideas to life, from concept to deployment. I'm also proficient with Sanity.io for content management.
-               </p>
-                {/* Optional: Add a call to action button */}
+                <p className="text-lg sm:text-xl text-gray-300 mb-4 leading-relaxed">
+                  Hi there! I'm Genrey, a passionate Full-Stack Developer specializing in creating modern, interactive web applications. I thrive on turning complex problems into elegant solutions.
+                </p>
+                <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">
+                  With experience in React, Next.js, Node.js, and databases like PostgreSQL and MongoDB, I love bringing ideas to life, from concept to deployment. I'm also proficient with Sanity.io for content management.
+                </p>
                 <motion.button
                   variants={itemVariants}
                   whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300"
+                  onClick={() => setShowResume(true)}
                 >
                   View Resume
                 </motion.button>
-             </motion.div>
+              </motion.div>
 
-             {/* Placeholder for an Image */}
-             <motion.div 
+              <motion.div 
                 className="md:w-1/3 mt-8 md:mt-0 flex justify-center"
-                variants={itemVariants} // Item animation
-                whileHover={{ scale: 1.03 }} // Subtle hover scale for the image container
+                variants={itemVariants}
+                whileHover={{ scale: 1.03 }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
-               <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 p-1 shadow-xl overflow-hidden">
-                  {/* Replace with your actual image */}
+                <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 p-1 shadow-xl overflow-hidden">
                   <img 
-                    src="/icon.png" // Replace with your image path
+                    src="/icon.png"
                     alt="Genrey Cristobal" 
                     className="w-full h-full object-cover rounded-full" 
                   />
-               </div>
-             </motion.div>
-          </div>
-        </motion.div>
-      </div>
-    </motion.section>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+    </>
   );
 };
 

@@ -108,7 +108,7 @@ const About = ({ id }: AboutProps) => {
                         </motion.h2>
 
                         <div className="md:flex md:items-center md:space-x-12">
-                            <motion.div 
+                            <motion.div
                                 className="md:w-2/3"
                                 variants={itemVariants}
                             >

@@ -113,10 +113,10 @@ const About = ({ id }: AboutProps) => {
   variants={itemVariants}
 >
   <p className="text-lg sm:text-xl text-gray-300 mb-4 leading-relaxed">
-    Hey there! I'm Genrey – a full-stack developer passionate about building impactful software. I’ve led teams developing clinic management systems, AI-driven game engines, and other real-world solutions using React, Node.js, Java Spring Boot, and PostgreSQL.
+    Hey there! Im Genrey – a full-stack developer passionate about building impactful software. Ive led teams developing clinic management systems, AI-driven game engines, and other real-world solutions using React, Node.js, Java Spring Boot, and PostgreSQL.
   </p>
   <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">
-    Beyond coding, I organize workshops empowering 1,000+ students in tech. Whether it's optimizing systems or mentoring others, I thrive on creating solutions that make a difference.
+    Beyond coding, I organize workshops empowering 1,000+ students in tech. Whether its optimizing systems or mentoring others, I thrive on creating solutions that make a difference.
   </p>
   <motion.button
     variants={itemVariants}

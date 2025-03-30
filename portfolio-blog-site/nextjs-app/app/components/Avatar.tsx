@@ -1,50 +1,65 @@
-import { Image } from "next-sanity/image";
+// components/Avatar.tsx
+import Image from "next/image";
 
-import { urlForImage } from "@/sanity/lib/utils";
-import DateComponent from "@/app/components/Date";
-
-type Props = {
-  person: {
-    firstName: string | null;
-    lastName: string | null;
-    picture?: any;
+type Person = {
+  firstName?: string;
+  lastName?: string;
+  image?: {
+    asset?: {
+      _ref?: string;
+    };
   };
-  date: string;
 };
 
-export default function Avatar({ person, date }: Props) {
-  const { firstName, lastName, picture } = person;
+export default function Avatar({
+  person,
+  date,
+}: {
+  person: Person;
+  date?: string;
+}) {
+  const imageRef = person.image?.asset?._ref;
 
   return (
     <div className="flex items-center">
-      {picture?.asset?._ref ? (
-        <div className="mr-4 h-9 w-9">
+      {imageRef && (
+        <div className="mr-4 h-12 w-12 relative">
           <Image
-            alt={picture?.alt || ""}
-            className="h-full rounded-full object-cover"
-            height={48}
-            width={48}
-            src={
-              urlForImage(picture)
-                ?.height(96)
-                .width(96)
-                .fit("crop")
-                .url() as string
+            src={`https://cdn.sanity.io/images/${
+              process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+            }/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${imageRef
+              .replace("image-", "")
+              .replace("-jpg", ".jpg")
+              .replace("-png", ".png")
+              .replace("-webp", ".webp")}`}
+            className="rounded-full border-2 border-cyan-400"
+            alt={
+              person.firstName && person.lastName
+                ? `${person.firstName} ${person.lastName}`
+                : "Unknown author"
             }
+            fill
+            sizes="48px"
           />
         </div>
-      ) : (
-        <div className="mr-1">By </div>
       )}
-      <div className="flex flex-col">
-        {firstName && lastName && (
-          <div className="font-bold">
-            {firstName} {lastName}
+      <div className="text-sm text-gray-400">
+        <p className="font-medium text-gray-200">
+          {person.firstName && person.lastName
+            ? `${person.firstName} ${person.lastName}`
+            : "Unknown author"}
+        </p>
+        {date && (
+          <div className="text-gray-400">
+            <time dateTime={date}>
+              {new Date(date).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </time>
           </div>
         )}
-        <div className="text-gray-500 text-sm">
-          <DateComponent dateString={date} />
-        </div>
       </div>
     </div>
   );

@@ -10,6 +10,8 @@ import PortableText from "@/app/components/PortableText";
 import { sanityFetch } from "@/sanity/lib/live";
 import { projectPagesSlugs, projectQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
+import ProjectHeader from "@/app/components/ProjectHeader";
+import Footer from "@/app/components/Footer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -71,15 +73,20 @@ export default async function ProjectPage(props: Props) {
   }
 
   return (
-    <>
-      <div className="">
-        <div className="container my-12 lg:my-24 grid gap-12">
+    <div className="bg-gradient-to-b from-[#0a192f] via-[#0a192f] to-gray-900 text-gray-300 min-h-screen">
+      <ProjectHeader projectTitle={project.title} />
+      
+      <main className="pt-24"> {/* Added padding for fixed header */}
+        <div className="container mx-auto px-4 my-12 lg:my-24 grid gap-12">
           <div>
-            <div className="pb-6 grid gap-6 mb-6 border-b border-gray-100">
+            <div className="pb-6 grid gap-6 mb-6 border-b border-gray-700">
               <div className="max-w-3xl flex flex-col gap-6">
-                <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl">
+                <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-7xl">
                   {project.title}
                 </h2>
+                {project.excerpt && (
+                  <p className="text-lg text-gray-300">{project.excerpt}</p>
+                )}
               </div>
               <div className="max-w-3xl flex gap-4 items-center">
                 {project.author &&
@@ -89,27 +96,21 @@ export default async function ProjectPage(props: Props) {
                   )}
               </div>
             </div>
-            <article className="gap-6 grid max-w-4xl">
-              <div className="">
+            <article className="gap-8 grid max-w-4xl">
+              <div className="rounded-lg overflow-hidden shadow-xl">
                 <CoverImage image={project.coverImage} priority />
               </div>
               {project.content?.length && (
                 <PortableText
-                  className="max-w-2xl"
+                  className="max-w-2xl text-gray-300 prose prose-invert prose-cyan"
                   value={project.content as PortableTextBlock[]}
                 />
               )}
             </article>
           </div>
         </div>
-      </div>
-      <div className="border-t border-gray-100">
-        <div className="container my-12 lg:my-24 grid gap-12">
-          <aside>
-            <Suspense>{await MoreProjects({ skip: project._id, limit: 2 })}</Suspense>
-          </aside>
-        </div>
-      </div>
-    </>
+      </main>
+      <Footer />
+    </div>
   );
 }

@@ -1,34 +1,39 @@
-export default function Experience() {
-    return (
-        <>
-            <div className="carousel w-full">
-                <div id="item1" className="carousel-item w-full">
-                    <img
-                        src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
-                        className="w-full" />
-                </div>
-                <div id="item2" className="carousel-item w-full">
-                    <img
-                        src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
-                        className="w-full" />
-                </div>
-                <div id="item3" className="carousel-item w-full">
-                    <img
-                        src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
-                        className="w-full" />
-                </div>
-                <div id="item4" className="carousel-item w-full">
-                    <img
-                        src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
-                        className="w-full" />
-                </div>
-            </div>
-            <div className="flex w-full h-full justify-center gap-2 py-2">
-                <a href="#item1" className="btn btn-xs">1</a>
-                <a href="#item2" className="btn btn-xs">2</a>
-                <a href="#item3" className="btn btn-xs">3</a>
-                <a href="#item4" className="btn btn-xs">4</a>
-            </div>
-        </>
-    );
+// ./experience/Experience.tsx
+import { motion } from 'framer-motion';
+
+// Example data structure
+const experiences = [
+  { id: 1, role: "Senior Developer", company: "Tech Corp", duration: "2021 - Present", description: "Led development of key features..." },
+  { id: 2, role: "Junior Developer", company: "Web Solutions", duration: "2019 - 2021", description: "Worked on various client projects..." },
+];
+
+const Experience = () => {
+  return (
+    <div className="space-y-12 max-w-3xl mx-auto"> 
+      {experiences.map((exp, index) => (
+        // Animate each experience item
+        <motion.div
+          key={exp.id}
+          className="p-6 bg-gray-800/50 rounded-lg shadow-md border border-gray-700/50"
+          initial={{ opacity: 0, x: -50 }} // Animate from left
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, delay: index * 0.15 }} // Stagger animation
+          whileHover={{ 
+             // Optional: Add hover effect to each card
+             // scale: 1.02, 
+             // boxShadow: "0 10px 15px -3px rgba(45, 212, 191, 0.1), 0 4px 6px -2px rgba(45, 212, 191, 0.05)",
+             borderColor: 'rgba(45, 212, 191, 0.5)' // Highlight border on hover
+           }} 
+        >
+          <h3 className="text-xl font-semibold text-cyan-400 mb-1">{exp.role}</h3>
+          <p className="text-md font-medium text-white mb-1">{exp.company}</p>
+          <p className="text-sm text-gray-400 mb-3">{exp.duration}</p>
+          <p className="text-gray-300">{exp.description}</p>
+        </motion.div>
+      ))}
+    </div>
+  );
 };
+
+export default Experience;

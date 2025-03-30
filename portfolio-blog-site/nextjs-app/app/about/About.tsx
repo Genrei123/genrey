@@ -108,27 +108,26 @@ const About = ({ id }: AboutProps) => {
                         </motion.h2>
 
                         <div className="md:flex md:items-center md:space-x-12">
-                        <motion.div 
-  className="md:w-2/3"
-  variants={itemVariants}
->
-  <p className="text-lg sm:text-xl text-gray-300 mb-4 leading-relaxed">
-    Hey there! Im Genrey – a full-stack developer passionate about building impactful software. Ive led teams developing clinic management systems, AI-driven game engines, and other real-world solutions using React, Node.js, Java Spring Boot, and PostgreSQL.
-  </p>
-  <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">
-    Beyond coding, I organize workshops empowering 1,000+ students in tech. Whether its optimizing systems or mentoring others, I thrive on creating solutions that make a difference.
-  </p>
-  <motion.button
-    variants={itemVariants}
-    whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
-    whileTap={{ scale: 0.95 }}
-    className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300"
-    onClick={() => setShowResume(true)}
-  >
-    View Resume
-  </motion.button>
-</motion.div>
-
+                            <motion.div 
+                                className="md:w-2/3"
+                                variants={itemVariants}
+                            >
+                                <p className="text-lg sm:text-xl text-gray-300 mb-4 leading-relaxed">
+                                    Hey there! I&apos;m Genrey – a full-stack developer passionate about building impactful software. I&apos;ve led teams developing clinic management systems, AI-driven game engines, and other real-world solutions using React, Node.js, Java Spring Boot, and PostgreSQL.
+                                </p>
+                                <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">
+                                    Beyond coding, I organize workshops empowering 1,000+ students in tech. Whether it&apos;s optimizing systems or mentoring others, I thrive on creating solutions that make a difference.
+                                </p>
+                                <motion.button
+                                    variants={itemVariants}
+                                    whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300"
+                                    onClick={() => setShowResume(true)}
+                                >
+                                    View Resume
+                                </motion.button>
+                            </motion.div>
 
                             <motion.div
                                 className="md:w-1/3 mt-8 md:mt-0 flex justify-center"

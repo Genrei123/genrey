@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 
 // Example data structure
 const experiences = [
-  { id: 1, role: "Senior Developer", company: "Tech Corp", duration: "2021 - Present", description: "Led development of key features..." },
-  { id: 2, role: "Junior Developer", company: "Web Solutions", duration: "2019 - 2021", description: "Worked on various client projects..." },
+  { id: 1, role: "Website Administrator, UCC-INGO ", company: "University's Computer Science Website", duration: "Present", description: "Adjusted key features and updated the site's content to University's standard" },
+  { id: 2, role: "Project Manager", company: "Jimirene Maternity Clinic", duration: "2024 - 2025", description: "Analyzed and design a business solution to streamline patient and inventory management" },
 ];
 
 const Experience = () => {

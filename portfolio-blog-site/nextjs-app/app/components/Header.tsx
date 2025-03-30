@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-      <div className="navbar bg-[#0d1b2a] shadow-sm text-[#e0e1dd]">
+      <div className="sticky navbar bg-[#0d1b2a] shadow-sm text-[#e0e1dd]">
         <div className="flex-1">
           <a className="btn btn-ghost text-xl" href = "/">Genrey O. Cristobal</a>
         </div>

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 
 interface AboutProps {
     id: string;
+    setActiveSection?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const containerVariants = {

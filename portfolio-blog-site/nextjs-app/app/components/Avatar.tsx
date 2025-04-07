@@ -2,8 +2,8 @@
 import Image from "next/image";
 
 type Person = {
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | null | undefined;
+  lastName?: string | null | undefined;
   image?: {
     asset?: {
       _ref?: string;

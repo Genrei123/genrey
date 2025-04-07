@@ -73,7 +73,7 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-cyan-400 font-bold text-xl tracking-wide"
           >
-            Genrey O. Cristobal
+            Genrey
           </motion.div>
           <ul className="flex space-x-2 sm:space-x-4"> {/* Reduced spacing slightly */}
             {sections.map((section) => (

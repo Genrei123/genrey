@@ -25,9 +25,16 @@ export default function CustomPortableText({
 }) {
   const components: PortableTextComponents = {
     block: {
+      // Normal paragraph
+      normal: ({ children }) => (
+        <p className="my-4 text-gray-300">{children}</p>
+      ),
+      // Headings
       h1: ({ children, value }) => (
-        // Add an anchor to the h1
-        <h1 className="group relative">
+        <h1 
+          id={value?._key} 
+          className="group relative text-3xl font-bold mt-8 mb-4 text-white"
+        >
           {children}
           <a
             href={`#${value?._key}`}
@@ -51,9 +58,11 @@ export default function CustomPortableText({
         </h1>
       ),
       h2: ({ children, value }) => {
-        // Add an anchor to the h2
         return (
-          <h2 className="group relative">
+          <h2 
+            id={value?._key} 
+            className="group relative text-2xl font-bold mt-6 mb-3 text-white"
+          >
             {children}
             <a
               href={`#${value?._key}`}
@@ -77,17 +86,87 @@ export default function CustomPortableText({
           </h2>
         );
       },
+      h3: ({ children, value }) => (
+        <h3 
+          id={value?._key} 
+          className="text-xl font-bold mt-5 mb-3 text-white"
+        >
+          {children}
+        </h3>
+      ),
+      h4: ({ children }) => (
+        <h4 className="text-lg font-bold mt-4 mb-2 text-white">{children}</h4>
+      ),
+      // Blockquotes
+      blockquote: ({ children }) => (
+        <blockquote className="border-l-4 border-cyan-500 pl-4 my-6 italic text-gray-400">
+          {children}
+        </blockquote>
+      ),
+      // Lists
+      bullet: ({ children }) => (
+        <ul className="list-disc pl-6 my-4 space-y-2">{children}</ul>
+      ),
+      number: ({ children }) => (
+        <ol className="list-decimal pl-6 my-4 space-y-2">{children}</ol>
+      ),
     },
     marks: {
+      // Text formatting
+      strong: ({ children }) => (
+        <strong className="font-bold text-cyan-300">{children}</strong>
+      ),
+      em: ({ children }) => (
+        <em className="italic text-gray-300">{children}</em>
+      ),
+      code: ({ children }) => (
+        <code className="bg-gray-800 rounded px-1 py-0.5 font-mono text-sm text-cyan-400">
+          {children}
+        </code>
+      ),
+      underline: ({ children }) => (
+        <span className="underline decoration-cyan-400">{children}</span>
+      ),
+      strike: ({ children }) => (
+        <span className="line-through text-gray-500">{children}</span>
+      ),
+      // Links
       link: ({ children, value: link }) => {
-        return <ResolvedLink link={link}>{children}</ResolvedLink>;
+        return <ResolvedLink link={link} className="text-cyan-400 hover:underline">{children}</ResolvedLink>;
       },
+    },
+    list: {
+      bullet: ({ children }) => (
+        <ul className="list-disc pl-6 my-4 space-y-2">{children}</ul>
+      ),
+      number: ({ children }) => (
+        <ol className="list-decimal pl-6 my-4 space-y-2">{children}</ol>
+      ),
+    },
+    listItem: {
+      bullet: ({ children }) => (
+        <li className="text-gray-300">{children}</li>
+      ),
+      number: ({ children }) => (
+        <li className="text-gray-300">{children}</li>
+      ),
     },
   };
 
   return (
     <div
-      className={["prose prose-a:text-red-500", className]
+      className={[
+        "prose prose-invert prose-cyan max-w-none", 
+        "prose-headings:text-white prose-p:text-gray-300",
+        "prose-strong:font-bold prose-strong:text-cyan-300",
+        "prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:underline",
+        "prose-blockquote:border-cyan-500 prose-blockquote:text-gray-400",
+        "prose-code:text-cyan-400 prose-code:bg-gray-800",
+        "prose-pre:bg-gray-800 prose-pre:text-gray-300",
+        "prose-ol:text-gray-300 prose-ul:text-gray-300",
+        "prose-li:text-gray-300",
+        className
+      ]
         .filter(Boolean)
         .join(" ")}
     >

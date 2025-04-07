@@ -9,7 +9,7 @@ import DateComponent from "@/app/components/Date"
 import OnBoarding from "@/app/components/Onboarding"
 
 const Project = ({ project }: { project: ProjectType }) => {
-  const { _id, title, slug, excerpt, date, coverImage } = project
+  const { _id, title, slug, excerpt, date, coverImage, content } = project
 
   return (
     <article

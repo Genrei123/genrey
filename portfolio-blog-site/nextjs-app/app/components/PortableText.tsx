@@ -16,6 +16,36 @@ import {
 
 import ResolvedLink from "@/app/components/ResolvedLink";
 
+// YouTube embed component
+const YouTubeEmbed = ({ value }: { value: any }) => {
+  // Extract the YouTube video ID from the URL
+  const getYouTubeId = (url: string) => {
+    // Handle different YouTube URL formats
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
+
+  const videoId = value?.url ? getYouTubeId(value.url) : null;
+  
+  if (!videoId) {
+    return <div className="text-red-500">Invalid YouTube URL</div>;
+  }
+
+  return (
+    <div className="aspect-w-16 aspect-h-9 my-8 rounded-lg overflow-hidden shadow-lg">
+      <iframe 
+        src={`https://www.youtube.com/embed/${videoId}`}
+        title="YouTube video player"
+        className="w-full h-full"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  );
+};
+
 export default function CustomPortableText({
   className,
   value,
@@ -150,6 +180,28 @@ export default function CustomPortableText({
       number: ({ children }) => (
         <li className="text-gray-300">{children}</li>
       ),
+    },
+    // Custom types
+    types: {
+      // YouTube video embedding
+      youtube: YouTubeEmbed,
+      // Add other custom types if needed
+      image: ({ value }) => {
+        return (
+          <div className="my-8 rounded-lg overflow-hidden shadow-lg">
+            <img 
+              src={value?.url} 
+              alt={value?.alt || ''} 
+              className="w-full h-auto"
+            />
+            {value?.caption && (
+              <div className="text-sm text-gray-400 text-center mt-2">
+                {value.caption}
+              </div>
+            )}
+          </div>
+        );
+      },
     },
   };
 

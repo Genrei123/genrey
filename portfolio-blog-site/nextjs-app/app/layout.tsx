@@ -75,7 +75,6 @@ export default async function RootLayout({
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <main className="min-h-screen">{children}</main>
-          <Footer />
         </section>
         <SpeedInsights />
       </body>

@@ -12,6 +12,8 @@ export default async function Page() {
   const posts = await AllPosts();
   const projects = await AllProject();
 
+  
+
   return (
     <>
       <ClientPortfolio

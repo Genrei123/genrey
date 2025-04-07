@@ -110,7 +110,6 @@ export default async function ProjectPage(props: Props) {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

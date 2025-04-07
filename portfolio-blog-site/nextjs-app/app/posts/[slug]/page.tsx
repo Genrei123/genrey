@@ -111,7 +111,6 @@ export default async function PostPage(props: Props) {
         </div>
       </main>
       
-      <Footer />
     </div>
   );
 }

@@ -78,7 +78,7 @@ export type CallToAction = {
 
 export type Link = {
   _type: 'link'
-  linkType?: 'href' | 'page' | 'post'
+  linkType?: 'href' | 'page' | 'post' | 'project'
   href?: string
   page?: {
     _ref: string

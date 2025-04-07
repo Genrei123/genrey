@@ -38,6 +38,8 @@ function resolveHref(documentType?: string, slug?: string): string | undefined {
       return slug ? `/posts/${slug}` : undefined
     case 'page':
       return slug ? `/${slug}` : undefined
+    case 'project':
+      return slug ? `/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
@@ -72,6 +74,10 @@ export default defineConfig({
             route: '/posts/:slug',
             filter: `_type == "post" && slug.current == $slug || _id == $slug`,
           },
+          {
+            route: '/project/:slug',
+            filter: `_type == "project" && slug.current == $slug || _id == $slug`,
+          },
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/presentation-resolver-api#8d8bca7bfcd7
         locations: {
@@ -94,6 +100,7 @@ export default defineConfig({
               ],
             }),
           }),
+
           post: defineLocations({
             select: {
               title: 'title',
@@ -112,6 +119,26 @@ export default defineConfig({
               ].filter(Boolean) as DocumentLocation[],
             }),
           }),
+
+          project: defineLocations({
+            select: {
+              title: 'title',
+              slug: 'slug.current',
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || 'Untitled',
+                  href: resolveHref('project', doc?.slug)!,
+                },
+                {
+                  title: 'Home',
+                  href: '/',
+                } satisfies DocumentLocation,
+              ].filter(Boolean) as DocumentLocation[],
+            }),
+          }),
+
         },
       },
     }),

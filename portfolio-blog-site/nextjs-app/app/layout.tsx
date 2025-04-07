@@ -64,7 +64,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body className="bg-[#1b263b] text-gray-100">
-        <section>
+        <section className = "h-96">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           {isDraftMode && (
             <>

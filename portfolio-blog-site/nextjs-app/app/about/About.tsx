@@ -81,7 +81,7 @@ const About = ({ id }: AboutProps) => {
             <motion.section
                 id={id}
                 ref={ref}
-                className="relative min-h-[70vh] sm:min-h-[80vh] flex items-center py-20 sm:py-28 overflow-hidden cursor-pointer"
+                className="relative min-h-[70vh] sm:min-h-[90vh] flex items-center py-20 sm:py-28 overflow-hidden cursor-pointer"
                 initial="hidden"
                 animate={inView ? "visible" : "hidden"}
                 transition={{ duration: 0.4, ease: "easeInOut" }}

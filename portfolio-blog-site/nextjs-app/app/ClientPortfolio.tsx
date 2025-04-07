@@ -6,6 +6,7 @@ import Experience from "./experience/Experience";
 import { motion } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Certificates from "./components/Certificates";
 
 interface ClientPortfolioProps {
   postsComponent: ReactNode;
@@ -72,6 +73,11 @@ export default function ClientPortfolio({ postsComponent, projectsComponent }: C
           {/* About section gets its own wrapper for the hover effect */}
           {/* We won't use SectionWrapper for About IF About implements its own container + animations */}
           <About id="about" setActiveSection={setActiveSection} /> 
+
+          <SectionWrapper id="experience" title="Certificates & Qualifications" className="bg-black bg-opacity-10">
+            <Certificates />
+            {/* TODO: Add animations inside the Experience component for timeline items */}
+          </SectionWrapper>
 
           {/* Use SectionWrapper for the rest */}
           <SectionWrapper id="experience" title="Experience" className="bg-black bg-opacity-10">

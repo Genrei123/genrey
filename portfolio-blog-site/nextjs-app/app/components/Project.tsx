@@ -103,7 +103,7 @@ export const AllProject = async () => {
   return (
     <Projects
       heading="Projects!"
-      subHeading={`${data.length === 1 ? "This project is" : `These ${data.length} projects are`} what I personally think!`}
+      subHeading={`${data.length === 1 ? "This project is" : `These ${data.length} projects are`} what I proudly did!`}
     >
       {data.map((project: any) => (
         <Project key={project._id} project={project} />

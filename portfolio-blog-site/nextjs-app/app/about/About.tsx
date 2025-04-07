@@ -136,7 +136,7 @@ const About = ({ id }: AboutProps) => {
                                     className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300"
                                     onClick = {() => window.open("https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=genreycristobal03@gmail.com") }
                                 >
-                                    Let's have a talk!
+                                    Let&apos;ms have a talk!
                                 </motion.button>
 
                                 

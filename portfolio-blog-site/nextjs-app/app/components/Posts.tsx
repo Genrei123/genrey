@@ -111,7 +111,7 @@ export const AllPosts = async () => {
   return (
     <Posts
       heading="Recent Posts"
-      subHeading={`${data.length === 1 ? "This blog post is" : `These ${data.length} blog posts are`} just my opinions, experience and thoughts`}
+      subHeading={`${data.length === 1 ? "This blog post is my way of sharing my thoughts and experience" : `These ${data.length} blog posts are`} just my opinions, experience and thoughts`}
     >
       {data.map((post: any) => (
         <Post key={post._id} post={post as PostType} />

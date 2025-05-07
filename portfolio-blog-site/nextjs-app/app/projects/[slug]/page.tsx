@@ -77,7 +77,7 @@ export default async function ProjectPage(props: Props) {
       <ProjectHeader projectTitle={project.title} />
       
       <main className="pt-24"> {/* Added padding for fixed header */}
-        <div className="container mx-auto px-4 my-12 lg:my-24 grid gap-12">
+        <div className="justify-center container mx-auto px-4 my-12 lg:my-24 grid gap-12">
           <div>
             <div className="pb-6 grid gap-6 mb-6 border-b border-gray-700">
               <div className="max-w-3xl flex flex-col gap-6">

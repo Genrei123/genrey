@@ -9,7 +9,7 @@ import {defineField, defineType} from 'sanity'
 
 export const project = defineType({
   name: 'project',
-  title: 'project',
+  title: 'Project',
   icon: DocumentTextIcon,
   type: 'document',
   fields: [

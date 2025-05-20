@@ -1,9 +1,7 @@
 // page.tsx
-import { Suspense } from "react";
 import { AllPosts } from "@/app/components/Posts";
-import About from "./about/About";
-import Experience from "./experience/Experience";
 import { AllProject } from "./components/Project";
+import { AllGallery } from "./components/Gallery";
 import ClientPortfolio from "./ClientPortfolio";
 import Footer from "./components/Footer";
 
@@ -11,6 +9,7 @@ export default async function Page() {
   // Pre-fetch the data for server components
   const posts = await AllPosts();
   const projects = await AllProject();
+  const gallery = await AllGallery();
 
   
 
@@ -19,6 +18,7 @@ export default async function Page() {
       <ClientPortfolio
         postsComponent={posts}
         projectsComponent={projects}
+        galleryComponent={gallery}
       />
       <Footer />
     </>

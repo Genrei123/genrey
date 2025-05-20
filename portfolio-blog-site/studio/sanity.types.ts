@@ -78,7 +78,7 @@ export type CallToAction = {
 
 export type Link = {
   _type: 'link'
-  linkType?: 'href' | 'page' | 'post'
+  linkType?: 'href' | 'page' | 'post' | 'project'
   href?: string
   page?: {
     _ref: string
@@ -171,6 +171,33 @@ export type BlockContent = Array<{
   _type: 'block'
   _key: string
 }>
+
+export type Gallery = {
+  _type: 'gallery'
+  asset?: {
+    _ref: string
+    _type: 'reference'
+    _weak?: boolean
+    [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+  }
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  description?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  alt?: string
+  caption?: string
+  credit?: string
+}
 
 export type Project = {
   _id: string
@@ -524,6 +551,7 @@ export type AllSanitySchemaTypes =
   | Link
   | InfoSection
   | BlockContent
+  | Gallery
   | Project
   | Page
   | Post

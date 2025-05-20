@@ -24,6 +24,31 @@ const projectFields = /* groq */ `
   "author": author->{firstName, lastName, picture},
 `;
 
+const galleryFields = /* groq */ `
+  _type,
+  asset {
+    _ref,
+    _type,
+    _weak,
+  },
+  hotspot,
+  crop,
+  description,
+  image {
+    _type,
+    asset {
+      _ref,
+      _type,
+      _weak,
+    },
+    hotspot,
+    crop,
+  },
+  alt,
+  caption,
+  credit
+`;
+
 const linkReference = /* groq */ `
   _type == "link" => {
     "page": page->slug.current,
@@ -92,6 +117,12 @@ export const allProjectsQuery = defineQuery(`
   }
 `);
 
+export const allGalleryImagesQuery = defineQuery(`
+  *[_type == "gallery"][0...10] {
+    ${galleryFields}
+  }
+`);
+
 export const morePostsQuery = defineQuery(`
   *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
@@ -144,3 +175,5 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `);
+
+

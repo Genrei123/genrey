@@ -14,7 +14,8 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
     { id: "about", label: "About" },
     { id: "experience", label: "Experience" },
     { id: "projects", label: "Projects" },
-    { id: "blog", label: "Blog" }
+    { id: "blog", label: "Blog" },
+    { id: "gallery", label: "Gallery" },
   ];
 
   // Keep useEffect for scrollspy as is (it's good)

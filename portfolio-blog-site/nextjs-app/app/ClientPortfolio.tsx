@@ -5,12 +5,12 @@ import About from "./about/About";
 import Experience from "./experience/Experience";
 import { motion } from "framer-motion";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Certificates from "./components/Certificates";
 
 interface ClientPortfolioProps {
   postsComponent: ReactNode;
   projectsComponent: ReactNode;
+  galleryComponent: ReactNode;
 }
 
 // --- Section Wrapper (with refined animations) ---
@@ -59,7 +59,7 @@ const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperP
 
 
 // --- Main Portfolio Component ---
-export default function ClientPortfolio({ postsComponent, projectsComponent }: ClientPortfolioProps) {
+export default function ClientPortfolio({ postsComponent, projectsComponent, galleryComponent }: ClientPortfolioProps) {
   const [activeSection, setActiveSection] = useState<string>("about");
 
   return (
@@ -97,6 +97,11 @@ export default function ClientPortfolio({ postsComponent, projectsComponent }: C
           <SectionWrapper id="blog" title="Blog" className="bg-black bg-opacity-10">
             {/* Suggestion: Wrap each blog post card in motion.div (similar to projects) */}
             {postsComponent || <LoadingPlaceholder />}
+          </SectionWrapper>
+
+          <SectionWrapper id="gallery" title="Gallery" className="bg-black bg-opacity-10">
+            {/* Suggestion: Wrap each gallery item in motion.div (similar to projects) */}
+            {galleryComponent || <LoadingPlaceholder />}
           </SectionWrapper>
         </main>
 

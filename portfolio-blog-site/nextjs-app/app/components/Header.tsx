@@ -3,6 +3,7 @@
 
 import { useEffect, ReactNode } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface HeaderProps {
   activeSection: string;
@@ -35,7 +36,7 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
           break;
         }
       }
-       // Only update if the section has actually changed
+      // Only update if the section has actually changed
       if (currentSection !== activeSection) {
         setActiveSection(currentSection);
       }
@@ -43,17 +44,17 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
 
     window.addEventListener("scroll", handleScroll);
     // Initial check in case the page loads scrolled down
-    handleScroll(); 
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  // Add activeSection to dependency array if you want useEffect to re-run if it's changed externally
-  // But for scroll spying, only setActiveSection is needed.
+    // Add activeSection to dependency array if you want useEffect to re-run if it's changed externally
+    // But for scroll spying, only setActiveSection is needed.
   }, [setActiveSection, sections, activeSection]); // Added activeSection dependency
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (section) {
       // Calculate offset considering the fixed navbar height (approx 60-70px)
-      const offsetTop = section.offsetTop - 70; 
+      const offsetTop = section.offsetTop - 70;
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth"
@@ -62,6 +63,10 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
       // setActiveSection(sectionId); // Keep this if you want immediate visual feedback
     }
   };
+
+  const gotoHome = () => {
+    window.location.href = "/"
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800/50">
@@ -77,7 +82,7 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
             Genrey
           </motion.div>
           <ul className="flex space-x-2 sm:space-x-4"> {/* Reduced spacing slightly */}
-            {sections.map((section) => (
+            {activeSection != "gallery" && sections.map((section) => (
               <motion.li
                 key={section.id}
                 className="relative" // Needed for absolute positioning of the underline
@@ -90,7 +95,7 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
                     activeSection === section.id
                       ? "text-white" // Active text bolder/brighter
                       : "text-gray-300 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {section.label}
                   {activeSection === section.id && (
@@ -104,6 +109,55 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
                 </button>
               </motion.li>
             ))}
+
+            {activeSection === "gallery" && (
+              <>
+                <motion.li
+                  key={"about"}
+                  className="relative" // Needed for absolute positioning of the underline
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <button
+                    onClick={() => scrollToSection("about")}
+                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                      activeSection === "gallery"
+                        ? "text-white" // Active text bolder/brighter
+                        : "text-gray-300 hover:text-white"
+                      }`}
+                  >
+                    Home
+                </button>
+              </motion.li>
+
+
+                <motion.li
+                  key={1}
+                  className="relative" // Needed for absolute positioning of the underline
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <button
+                    onClick={() => scrollToSection("gallery")}
+                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                      activeSection === "gallery"
+                        ? "text-white" // Active text bolder/brighter
+                        : "text-gray-300 hover:text-white"
+                      }`}
+                  >
+                    Gallery
+                    {activeSection === "gallery" && (
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
+                        layoutId="underline" // Key for the animation
+                        initial={false} // Don't animate initial render of this specific div
+                        transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
+                      />
+                    )}
+                  </button>
+                </motion.li>
+              </>
+            )}
           </ul>
         </div>
       </div>

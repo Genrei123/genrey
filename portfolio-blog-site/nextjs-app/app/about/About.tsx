@@ -123,7 +123,7 @@ const About = ({ id }: AboutProps) => {
                                     variants={itemVariants}
                                     whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="mr-2 mb-2 bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300"
+                                    className="mr-3 mb-2 bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300 w-48"
                                     onClick={() => setShowResume(true)}
                                 >
                                     View Resume
@@ -133,7 +133,7 @@ const About = ({ id }: AboutProps) => {
                                     variants={itemVariants}
                                     whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300"
+                                    className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300 w-48"
                                     onClick = {() => window.open("https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=genreycristobal03@gmail.com") }
                                 >
                                     Let&apos;s have a talk!

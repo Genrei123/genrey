@@ -81,11 +81,11 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
           >
             Genrey
           </motion.div>
-          <ul className="flex space-x-2 sm:space-x-4"> {/* Reduced spacing slightly */}
+          <ul className="hidden lg:md:flex space-x-2"> {/* Reduced spacing slightly */}
             {activeSection != "gallery" && sections.map((section) => (
               <motion.li
                 key={section.id}
-                className="relative" // Needed for absolute positioning of the underline
+                className="relative md:text-cyan-400" // Needed for absolute positioning of the underline
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -127,8 +127,8 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
                       }`}
                   >
                     Home
-                </button>
-              </motion.li>
+                  </button>
+                </motion.li>
 
 
                 <motion.li
@@ -158,7 +158,98 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
                 </motion.li>
               </>
             )}
+
+
           </ul>
+
+          <details className="block md:hidden dropdown dropdown-end">
+            <summary className="btn m-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-menu-icon lucide-menu"><path d="M4 12h16" /><path d="M4 18h16" /><path d="M4 6h16" /></svg>
+            </summary>
+
+            <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+              <li>{activeSection != "gallery" && sections.map((section) => (
+                <motion.li
+                  key={section.id}
+                  className="relative md:text-cyan-400" // Needed for absolute positioning of the underline
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <button
+                    onClick={() => scrollToSection(section.id)}
+                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                      activeSection === section.id
+                        ? "text-white" // Active text bolder/brighter
+                        : "text-gray-300 hover:text-white"
+                      }`}
+                  >
+                    {section.label}
+                    {activeSection === section.id && (
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
+                        layoutId="underline" // Key for the animation
+                        initial={false} // Don't animate initial render of this specific div
+                        transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
+                      />
+                    )}
+                  </button>
+                </motion.li>
+              ))}
+
+                {activeSection === "gallery" && (
+                  <>
+                    <motion.li
+                      key={"about"}
+                      className="relative" // Needed for absolute positioning of the underline
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <button
+                        onClick={() => scrollToSection("about")}
+                        className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                          activeSection === "gallery"
+                            ? "text-white" // Active text bolder/brighter
+                            : "text-gray-300 hover:text-white"
+                          }`}
+                      >
+                        Home
+                      </button>
+                    </motion.li>
+
+
+                    <motion.li
+                      key={1}
+                      className="relative" // Needed for absolute positioning of the underline
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <button
+                        onClick={() => scrollToSection("gallery")}
+                        className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                          activeSection === "gallery"
+                            ? "text-white" // Active text bolder/brighter
+                            : "text-gray-300 hover:text-white"
+                          }`}
+                      >
+                        Gallery
+                        {activeSection === "gallery" && (
+                          <motion.div
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
+                            layoutId="underline" // Key for the animation
+                            initial={false} // Don't animate initial render of this specific div
+                            transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
+                          />
+                        )}
+                      </button>
+                    </motion.li>
+                  </>
+                )}
+
+
+
+              </li>
+            </ul>
+          </details>
         </div>
       </div>
     </nav>

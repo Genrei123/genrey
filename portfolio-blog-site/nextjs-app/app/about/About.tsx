@@ -97,7 +97,7 @@ const About = ({ id }: AboutProps) => {
                     >
                         <motion.h2
                             variants={itemVariants}
-                            className="text-3xl sm:text-4xl font-bold text-white mb-6 inline-block relative pb-2"
+                            className="text-3xl sm:text-2xl font-bold text-white mb-6 inline-block relative pb-2"
                         >
                             About Me
                             <motion.span
@@ -108,7 +108,7 @@ const About = ({ id }: AboutProps) => {
                             />
                         </motion.h2>
 
-                        <div className="md:flex md:items-center md:space-x-12">
+                        <div className="md:flex md:items-center md:space-x-12 md:justify-center">
                             <motion.div
                                 className="md:w-2/3"
                                 variants={itemVariants}
@@ -119,25 +119,28 @@ const About = ({ id }: AboutProps) => {
                                 <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">
                                     Beyond coding, I organize workshops empowering 1,000+ students in tech. Whether it&apos;s optimizing systems or mentoring others, I thrive on creating solutions that make a difference.
                                 </p>
-                                <motion.button
-                                    variants={itemVariants}
-                                    whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="mr-3 mb-2 bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300 w-48"
-                                    onClick={() => setShowResume(true)}
-                                >
-                                    View Resume
-                                </motion.button>
 
-                                <motion.button
-                                    variants={itemVariants}
-                                    whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300 w-48"
-                                    onClick={() => window.open("https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=genreycristobal03@gmail.com")}
-                                >
-                                    Let&apos;s have a talk!
-                                </motion.button>
+                                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+                                    <motion.button
+                                        variants={itemVariants}
+                                        whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300 w-48"
+                                        onClick={() => window.open("https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=genreycristobal03@gmail.com")}
+                                    >
+                                        Let&apos;s have a talk!
+                                    </motion.button>
+
+                                    <motion.button
+                                        variants={itemVariants}
+                                        whileHover={{ scale: 1.05, backgroundColor: "#2dd4bf", color: "#0a192f" }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="mr-0 mb-2 bg-cyan-500 text-gray-900 font-semibold px-6 py-3 rounded-md shadow-lg transition-colors duration-300 w-48 "
+                                        onClick={() => setShowResume(true)}
+                                    >
+                                        View Resume
+                                    </motion.button>
+                                </div>
 
                                 <div className="flex justify-center md:justify-start mt-4 space-x-4">
                                     <motion.button

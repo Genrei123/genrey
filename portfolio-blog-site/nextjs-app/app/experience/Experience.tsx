@@ -13,7 +13,7 @@ const experiences = [
 
 const Experience = () => {
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-4 max-w-3xl mx-auto"> 
+    <div className="grid grid-cols-2 grid-rows-2 gap-4 max-w-3xl mx-auto max-sm:grid-cols-1"> 
       {experiences.map((exp, index) => (
         // Animate each experience item
         <motion.div

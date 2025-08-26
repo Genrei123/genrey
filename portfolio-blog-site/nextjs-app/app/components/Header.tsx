@@ -1,9 +1,8 @@
 // components/Header.tsx
 "use client";
 
-import { useEffect, ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 
 interface HeaderProps {
   activeSection: string;
@@ -11,6 +10,8 @@ interface HeaderProps {
 }
 
 const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
+  const [isClient, setIsClient] = useState(false);
+  
   const sections = [
     { id: "about", label: "About" },
     { id: "experience", label: "Experience" },
@@ -19,60 +20,104 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
     { id: "gallery", label: "Gallery" },
   ];
 
-  // Keep useEffect for scrollspy as is (it's good)
+  // Ensure we're on client before doing any scroll-related operations
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const sectionElements = sections.map(section => ({
-        id: section.id,
-        offsetTop: document.getElementById(section.id)?.offsetTop || 0
-      }));
+      const sectionElements = sections.map(section => {
+        const element = document.getElementById(section.id);
+        return {
+          id: section.id,
+          offsetTop: element?.offsetTop || 0
+        };
+      });
 
-      let currentSection = sections[0].id; // Default to the first section
+      let currentSection = sections[0].id;
       for (let i = sectionElements.length - 1; i >= 0; i--) {
-        // Adjust offsetTop calculation for better accuracy with fixed header
-        if (scrollPosition >= sectionElements[i].offsetTop - 150) { // Increased offset
+        if (scrollPosition >= sectionElements[i].offsetTop - 150) {
           currentSection = sections[i].id;
           break;
         }
       }
-      // Only update if the section has actually changed
+      
       if (currentSection !== activeSection) {
         setActiveSection(currentSection);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Initial check in case the page loads scrolled down
-    handleScroll();
+    handleScroll(); // Initial check
+    
     return () => window.removeEventListener("scroll", handleScroll);
-    // Add activeSection to dependency array if you want useEffect to re-run if it's changed externally
-    // But for scroll spying, only setActiveSection is needed.
-  }, [setActiveSection, sections, activeSection]); // Added activeSection dependency
+  }, [isClient, setActiveSection, activeSection]);
 
   const scrollToSection = (sectionId: string) => {
+    if (!isClient) return;
+    
     const section = document.getElementById(sectionId);
     if (section) {
-      // Calculate offset considering the fixed navbar height (approx 60-70px)
       const offsetTop = section.offsetTop - 70;
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth"
       });
-      // Optionally set active section immediately on click for faster feedback
-      // setActiveSection(sectionId); // Keep this if you want immediate visual feedback
     }
   };
 
-  const gotoHome = () => {
-    window.location.href = "/"
+  // Render a consistent initial state for both server and client
+  if (!isClient) {
+    return (
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800/50">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            <div className="text-cyan-400 font-bold text-xl tracking-wide">
+              Genrey
+            </div>
+            <ul className="hidden lg:md:flex space-x-2">
+              {sections.map((section) => (
+                <li key={section.id} className="relative md:text-cyan-400">
+                  <button
+                    className="text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 text-gray-300 hover:text-white"
+                  >
+                    {section.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <details className="block md:hidden dropdown dropdown-end">
+              <summary className="btn m-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 12h16" />
+                  <path d="M4 18h16" />
+                  <path d="M4 6h16" />
+                </svg>
+              </summary>
+              <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                {sections.map((section) => (
+                  <li key={section.id}>
+                    <button className="text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 text-gray-300 hover:text-white">
+                      {section.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </div>
+        </div>
+      </nav>
+    );
   }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800/50">
-      {/* Added transparency and stronger blur */}
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16"> {/* Fixed height */}
+        <div className="flex justify-between items-center h-16">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -81,29 +126,30 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
           >
             Genrey
           </motion.div>
-          <ul className="hidden lg:md:flex space-x-2"> {/* Reduced spacing slightly */}
-            {activeSection != "gallery" && sections.map((section) => (
+          
+          <ul className="hidden lg:md:flex space-x-2">
+            {activeSection !== "gallery" && sections.map((section) => (
               <motion.li
                 key={section.id}
-                className="relative md:text-cyan-400" // Needed for absolute positioning of the underline
+                className="relative md:text-cyan-400"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <button
                   onClick={() => scrollToSection(section.id)}
-                  className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                  className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${
                     activeSection === section.id
-                      ? "text-white" // Active text bolder/brighter
+                      ? "text-white"
                       : "text-gray-300 hover:text-white"
-                    }`}
+                  }`}
                 >
                   {section.label}
                   {activeSection === section.id && (
                     <motion.div
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
-                      layoutId="underline" // Key for the animation
-                      initial={false} // Don't animate initial render of this specific div
-                      transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
+                      layoutId="underline"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     />
                   )}
                 </button>
@@ -113,141 +159,108 @@ const Header = ({ activeSection, setActiveSection }: HeaderProps) => {
             {activeSection === "gallery" && (
               <>
                 <motion.li
-                  key={"about"}
-                  className="relative" // Needed for absolute positioning of the underline
+                  key="about-home"
+                  className="relative"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <button
                     onClick={() => scrollToSection("about")}
-                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
-                      activeSection === "gallery"
-                        ? "text-white" // Active text bolder/brighter
-                        : "text-gray-300 hover:text-white"
-                      }`}
+                    className="text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 text-gray-300 hover:text-white"
                   >
                     Home
                   </button>
                 </motion.li>
 
-
                 <motion.li
-                  key={1}
-                  className="relative" // Needed for absolute positioning of the underline
+                  key="gallery-active"
+                  className="relative"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <button
                     onClick={() => scrollToSection("gallery")}
-                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
-                      activeSection === "gallery"
-                        ? "text-white" // Active text bolder/brighter
-                        : "text-gray-300 hover:text-white"
-                      }`}
+                    className="text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 text-white"
                   >
                     Gallery
-                    {activeSection === "gallery" && (
-                      <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
-                        layoutId="underline" // Key for the animation
-                        initial={false} // Don't animate initial render of this specific div
-                        transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
-                      />
-                    )}
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
+                      layoutId="underline"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
                   </button>
                 </motion.li>
               </>
             )}
-
-
           </ul>
 
           <details className="block md:hidden dropdown dropdown-end">
             <summary className="btn m-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-menu-icon lucide-menu"><path d="M4 12h16" /><path d="M4 18h16" /><path d="M4 6h16" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 12h16" />
+                <path d="M4 18h16" />
+                <path d="M4 6h16" />
+              </svg>
             </summary>
-
+            
             <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-              <li>{activeSection != "gallery" && sections.map((section) => (
-                <motion.li
-                  key={section.id}
-                  className="relative md:text-cyan-400" // Needed for absolute positioning of the underline
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <button
+              {activeSection !== "gallery" && sections.map((section) => (
+                <li key={section.id}>
+                  <motion.button
                     onClick={() => scrollToSection(section.id)}
-                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
+                    className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${
                       activeSection === section.id
-                        ? "text-white" // Active text bolder/brighter
+                        ? "text-white"
                         : "text-gray-300 hover:text-white"
-                      }`}
+                    }`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     {section.label}
                     {activeSection === section.id && (
                       <motion.div
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
-                        layoutId="underline" // Key for the animation
-                        initial={false} // Don't animate initial render of this specific div
-                        transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
+                        layoutId="underline-mobile"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
                       />
                     )}
-                  </button>
-                </motion.li>
+                  </motion.button>
+                </li>
               ))}
 
-                {activeSection === "gallery" && (
-                  <>
-                    <motion.li
-                      key={"about"}
-                      className="relative" // Needed for absolute positioning of the underline
+              {activeSection === "gallery" && (
+                <>
+                  <li key="mobile-home">
+                    <motion.button
+                      onClick={() => scrollToSection("about")}
+                      className="text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 text-gray-300 hover:text-white"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <button
-                        onClick={() => scrollToSection("about")}
-                        className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
-                          activeSection === "gallery"
-                            ? "text-white" // Active text bolder/brighter
-                            : "text-gray-300 hover:text-white"
-                          }`}
-                      >
-                        Home
-                      </button>
-                    </motion.li>
-
-
-                    <motion.li
-                      key={1}
-                      className="relative" // Needed for absolute positioning of the underline
+                      Home
+                    </motion.button>
+                  </li>
+                  
+                  <li key="mobile-gallery">
+                    <motion.button
+                      onClick={() => scrollToSection("gallery")}
+                      className="text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 text-white"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <button
-                        onClick={() => scrollToSection("gallery")}
-                        className={`text-sm font-medium px-3 py-2 rounded-md transition-colors duration-200 relative z-10 ${ // Added z-10
-                          activeSection === "gallery"
-                            ? "text-white" // Active text bolder/brighter
-                            : "text-gray-300 hover:text-white"
-                          }`}
-                      >
-                        Gallery
-                        {activeSection === "gallery" && (
-                          <motion.div
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
-                            layoutId="underline" // Key for the animation
-                            initial={false} // Don't animate initial render of this specific div
-                            transition={{ type: "spring", stiffness: 300, damping: 25 }} // Smoother transition
-                          />
-                        )}
-                      </button>
-                    </motion.li>
-                  </>
-                )}
-
-
-
-              </li>
+                      Gallery
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
+                        layoutId="underline-mobile"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                      />
+                    </motion.button>
+                  </li>
+                </>
+              )}
             </ul>
           </details>
         </div>

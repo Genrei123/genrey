@@ -173,17 +173,14 @@ const About = ({ id }: AboutProps) => {
                                         </span>
                                     </motion.button>
                                 </div>
-
-
                             </motion.div>
 
-
-
-
                             <motion.div
+                                drag
+                                whileDrag={{ scale: 1.2 }}
                                 className="md:w-1/3 mt-8 md:mt-0 flex justify-center"
                                 variants={itemVariants}
-                                whileHover={{ scale: 1.03 }}
+                                whileHover={{ scale: 1.45 }}
                                 transition={{ type: 'spring', stiffness: 300 }}
                             >
                                 <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 p-1 shadow-xl overflow-hidden">

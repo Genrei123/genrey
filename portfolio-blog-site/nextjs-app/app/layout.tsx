@@ -42,9 +42,19 @@ export async function generateMetadata(): Promise<Metadata> {
       default: title,
     },
     description: toPlainText(description),
+    keywords: ["Genrey", "Portfolio", "Web Developer", "Software Engineer", "Fullstack Developer"],
+    authors: [{ name: "Genrey Cristobal" }],
+    viewport: "width=device-width, initial-scale=1.0",
+    themeColor: "#1b263b",
     openGraph: {
       images: ogImage ? [ogImage] : [],
     },
+    icons: {
+      icon: "/favicon.ico",
+    },
+    other: {
+      "description": "Genrey's Portfolio Website, Genrey's Showcase",
+    }
   }
 }
 
@@ -63,14 +73,8 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable}`}>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="theme-color" content="#1b263b" />
-      <meta name="description" content="Genrey's Portfolio Website, Genrey's Showcase" />
-      <meta name="keywords" content="Genrey, Portfolio, Web Developer, Software Engineer, Fullstack Developer" />
-      <meta name="author" content="Genrey Cristobal" />
       <body className="bg-[#1b263b] text-gray-100">
-        <section className = "h-96">
+        <section className="h-96">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
           {isDraftMode && (
             <>
@@ -80,7 +84,7 @@ export default async function RootLayout({
             </>
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-          <SanityLive/>
+          <SanityLive />
           <main className="min-h-screen">{children}</main>
         </section>
         <SpeedInsights />
@@ -88,4 +92,3 @@ export default async function RootLayout({
     </html>
   )
 }
-

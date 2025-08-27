@@ -23,11 +23,11 @@ const Post = ({ post }: { post: PostType }) => {
             alt={coverImage.alt || title || "Post cover image"}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
+            className="object-cover hover:scale-105 transition-transform duration-200"
           />
         </div>
       )}
-      <div className="p-6 flex flex-col h-full">
+      <div className="p-6 flex flex-col">
         <div className="text-gray-400 text-sm font-medium">
           <DateComponent dateString={date} />
         </div>
@@ -37,7 +37,6 @@ const Post = ({ post }: { post: PostType }) => {
             {title}
           </Link>
         </h3>
-        <p className="mt-4 line-clamp-3 text-base leading-relaxed text-gray-300 flex-grow">{excerpt}</p>
         <div className="mt-5 pt-4 border-t border-gray-700">
           <Link
             href={`/posts/${slug}`}

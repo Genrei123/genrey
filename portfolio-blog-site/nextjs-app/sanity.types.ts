@@ -172,16 +172,35 @@ export type BlockContent = Array<{
   _key: string;
 }>;
 
-export type Gallery = {
-  _type: "gallery";
-  asset?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+export type Certificates = {
+  _id: string;
+  _type: "certificates";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
   };
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
+  alt?: string;
+  caption?: string;
+  credit?: string;
+};
+
+export type Gallery = {
+  _id: string;
+  _type: "gallery";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   description?: string;
   image?: {
     asset?: {
@@ -524,7 +543,7 @@ export type SanityAssistSchemaTypeField = {
   } & SanityAssistInstruction>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | CallToAction | Link | InfoSection | BlockContent | Gallery | Project | Page | Post | Person | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | CallToAction | Link | InfoSection | BlockContent | Certificates | Gallery | Project | Page | Post | Person | Slug | Settings | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | SanityAssistInstructionTask | SanityAssistTaskStatus | SanityAssistSchemaTypeAnnotations | SanityAssistOutputType | SanityAssistOutputField | SanityAssistInstructionContext | AssistInstructionContext | SanityAssistInstructionUserInput | SanityAssistInstructionPrompt | SanityAssistInstructionFieldRef | SanityAssistInstruction | SanityAssistSchemaTypeField;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: settingsQuery
@@ -730,7 +749,26 @@ export type AllProjectsQueryResult = Array<{
 }>;
 // Variable: allGalleryImagesQuery
 // Query: *[_type == "gallery"][0...20] {      _type,  asset {    _ref,    _type,    _weak,  },  hotspot,  crop,  description,  image {    _type,    asset {      _ref,      _type,      _weak,    },    hotspot,    crop,  },  alt,  caption,  credit  }
-export type AllGalleryImagesQueryResult = Array<never>;
+export type AllGalleryImagesQueryResult = Array<{
+  _type: "gallery";
+  asset: null;
+  hotspot: null;
+  crop: null;
+  description: string | null;
+  image: {
+    _type: "image";
+    asset: {
+      _ref: string;
+      _type: "reference";
+      _weak: boolean | null;
+    } | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  } | null;
+  alt: string | null;
+  caption: string | null;
+  credit: string | null;
+}>;
 // Variable: morePostsQuery
 // Query: *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
 export type MorePostsQueryResult = Array<{

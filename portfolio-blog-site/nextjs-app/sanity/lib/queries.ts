@@ -49,6 +49,31 @@ const galleryFields = /* groq */ `
   credit
 `;
 
+const certicateFields = /* groq */ `
+  _type,
+  asset {
+    _ref,
+    _type,
+    _weak,
+  },
+  hotspot,
+  crop,
+  description,
+  image {
+    _type,
+    asset {
+      _ref,
+      _type,
+      _weak,
+    },
+    hotspot,
+    crop,
+  },
+  alt,
+  caption,
+  credit
+`;
+
 const linkReference = /* groq */ `
   _type == "link" => {
     "page": page->slug.current,
@@ -120,6 +145,12 @@ export const allProjectsQuery = defineQuery(`
 export const allGalleryImagesQuery = defineQuery(`
   *[_type == "gallery"][0...20] {
     ${galleryFields}
+  }
+`);
+
+export const allCertificateQuery = defineQuery(`
+  *[_type == "certificates"][0...20] {
+    ${certicateFields}
   }
 `);
 

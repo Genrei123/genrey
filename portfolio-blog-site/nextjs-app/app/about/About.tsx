@@ -33,7 +33,7 @@ const itemVariants = {
 const ResumeViewer = ({ onClose }: { onClose: () => void }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-            <div className="relative w-full max-w-4xl h-[90vh] bg-gray-900 rounded-lg overflow-hidden">
+            <div className="relative w-full max-w-4xl h-[90vh] bg-gray-900 rounded-lg overflow-hidden pt-16">
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 z-10 text-white hover:text-cyan-400 transition-colors"

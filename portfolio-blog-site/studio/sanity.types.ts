@@ -172,16 +172,35 @@ export type BlockContent = Array<{
   _key: string
 }>
 
-export type Gallery = {
-  _type: 'gallery'
-  asset?: {
-    _ref: string
-    _type: 'reference'
-    _weak?: boolean
-    [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+export type Certificates = {
+  _id: string
+  _type: 'certificates'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  description?: string
+  image?: {
+    asset?: {
+      _ref: string
+      _type: 'reference'
+      _weak?: boolean
+      [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+    }
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
   }
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
+  alt?: string
+  caption?: string
+  credit?: string
+}
+
+export type Gallery = {
+  _id: string
+  _type: 'gallery'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
   description?: string
   image?: {
     asset?: {
@@ -551,6 +570,7 @@ export type AllSanitySchemaTypes =
   | Link
   | InfoSection
   | BlockContent
+  | Certificates
   | Gallery
   | Project
   | Page
@@ -575,4 +595,5 @@ export type AllSanitySchemaTypes =
   | SanityAssistInstructionFieldRef
   | SanityAssistInstruction
   | SanityAssistSchemaTypeField
+
 export declare const internalGroqTypeReferenceTo: unique symbol

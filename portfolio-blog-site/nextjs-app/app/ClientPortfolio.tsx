@@ -11,6 +11,7 @@ interface ClientPortfolioProps {
   postsComponent: ReactNode;
   projectsComponent: ReactNode;
   galleryComponent: ReactNode;
+  certificatesComponent: ReactNode;
 }
 
 // --- Section Wrapper (with refined animations) ---
@@ -24,7 +25,7 @@ interface SectionWrapperProps {
 const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperProps) => {
   return (
     <section id={id} className={`py-20 sm:py-28 overflow-hidden ${className}`}> {/* Added overflow-hidden */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 justify-items-center">
          {/* Animate the title separately */}
          <motion.h2 
             className="text-3xl sm:text-4xl font-bold text-white mb-10 sm:mb-14 inline-block relative pb-2"
@@ -59,7 +60,7 @@ const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperP
 
 
 // --- Main Portfolio Component ---
-export default function ClientPortfolio({ postsComponent, projectsComponent, galleryComponent }: ClientPortfolioProps) {
+export default function ClientPortfolio({ postsComponent, projectsComponent, galleryComponent, certificatesComponent }: ClientPortfolioProps) {
   const [activeSection, setActiveSection] = useState<string>("about");
 
   return (
@@ -75,7 +76,7 @@ export default function ClientPortfolio({ postsComponent, projectsComponent, gal
           <About id="about" setActiveSection={setActiveSection} /> 
 
           <SectionWrapper id="experience" title="Certificates & Qualifications" className="bg-black bg-opacity-10">
-            <Certificates />
+            {certificatesComponent || <LoadingPlaceholder />}
             {/* TODO: Add animations inside the Experience component for timeline items */}
           </SectionWrapper>
 

@@ -219,7 +219,7 @@ export function CertificateViewer({ data }: { data: any[] }) {
     const [tx, ty, rot, sc] = SCATTER[i % SCATTER.length];
     return {
       position:  i === 0 ? "relative" : "absolute",
-      top:       i === 0 ? 0 : "0px",
+      top:       "150px",
       left:      "150px",
       transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${sc})`,
       zIndex:    stackCount - i,

@@ -2,8 +2,8 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { type PortableTextBlock } from "next-sanity";
 import Avatar from "@/app/components/Avatar";
-import CoverImage from "@/app/components/CoverImage";
 import PortableText from "@/app/components/PortableText";
+import ImageCarousel from "@/app/components/ImageCarousel";
 import { sanityFetch } from "@/sanity/lib/live";
 import { projectPagesSlugs, projectQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
@@ -14,24 +14,15 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-/**
- * Generate the static params for the page.
- * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-static-params
- */
 export async function generateStaticParams() {
   const { data } = await sanityFetch({
     query: projectPagesSlugs,
-    // Use the published perspective in generateStaticParams
     perspective: "published",
     stega: false,
   });
   return data;
 }
 
-/**
- * Generate metadata for the page.
- * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
- */
 export async function generateMetadata(
   props: Props,
   parent: ResolvingMetadata,
@@ -40,7 +31,6 @@ export async function generateMetadata(
   const { data: project } = await sanityFetch({
     query: projectQuery,
     params,
-    // Metadata should never contain stega
     stega: false,
   });
   const previousImages = (await parent).openGraph?.images || [];
@@ -69,11 +59,19 @@ export default async function ProjectPage(props: Props) {
     return notFound();
   }
 
+  // Merge coverImage as the first slide, followed by any extra images
+  const allImages = [
+    ...(project.coverImage ? [{ _key: "cover", alt: project.coverImage.alt, asset: project.coverImage.asset }] : []),
+    ...(project.images ?? []),
+  ];
+
+
+
   return (
     <div className="bg-gradient-to-b from-[#0a192f] via-[#0a192f] to-gray-900 text-gray-300 min-h-screen">
       <ProjectHeader projectTitle={project.title} />
-      
-      <main className="pt-24"> {/* Added padding for fixed header */}
+
+      <main className="pt-24">
         <div className="justify-center container mx-auto px-4 my-12 lg:my-24 grid gap-12">
           <div>
             <div className="pb-6 grid gap-6 mb-6 border-b border-gray-700">
@@ -93,10 +91,13 @@ export default async function ProjectPage(props: Props) {
                   )}
               </div>
             </div>
+
             <article className="gap-8 grid max-w-4xl">
-              <div className="rounded-lg overflow-hidden shadow-xl">
-                <CoverImage image={project.coverImage} priority />
-              </div>
+              {/* Carousel — cover image is always first, extra images follow */}
+              {allImages.length > 0 && (
+                <ImageCarousel images={allImages} youtubeUrl={project.youtube} />
+              )}
+
               {project.content?.length && (
                 <PortableText
                   className="max-w-2xl text-gray-300 prose prose-invert prose-cyan"
@@ -107,6 +108,7 @@ export default async function ProjectPage(props: Props) {
           </div>
         </div>
       </main>
+
       <Footer />
     </div>
   );

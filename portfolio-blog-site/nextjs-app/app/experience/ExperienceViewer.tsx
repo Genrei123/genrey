@@ -39,7 +39,7 @@ export const ExperienceViewer = (props: ExperienceProps) => {
     <div className="grid grid-cols-4 gap-4 mx-0 md:grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-4 w-full">
       {experiences.map((exp, index) => (
         <motion.div
-          key={`exp-${exp.id}`}
+          key={`exp-${exp.company}`}
           className="p-6 bg-gray-800/50 rounded-lg shadow-md border border-gray-700/50 flex flex-col h-full"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}

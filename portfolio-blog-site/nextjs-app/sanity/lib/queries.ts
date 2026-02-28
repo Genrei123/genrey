@@ -9,6 +9,8 @@ const postFields = /* groq */ `
   "slug": slug.current,
   excerpt,
   coverImage,
+  images,
+  youtube,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
 `;
@@ -20,6 +22,8 @@ const projectFields = /* groq */ `
   "slug": slug.current,
   excerpt,
   coverImage,
+  images,
+  youtube,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
 `;

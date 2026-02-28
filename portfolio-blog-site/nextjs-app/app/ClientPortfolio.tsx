@@ -75,7 +75,7 @@ export default function ClientPortfolio({ postsComponent, projectsComponent, gal
           {/* We won't use SectionWrapper for About IF About implements its own container + animations */}
           <About id="about" setActiveSection={setActiveSection} /> 
 
-          <SectionWrapper id="experience" title="Certificates & Qualifications" className="bg-black bg-opacity-10">
+          <SectionWrapper id="certificates" title="Certificates & Qualifications" className="bg-black bg-opacity-10">
             {certificatesComponent || <LoadingPlaceholder />}
             {/* TODO: Add animations inside the Experience component for timeline items */}
           </SectionWrapper>

@@ -9,6 +9,7 @@ import { postPagesSlugs, postQuery } from "@/sanity/lib/queries";
 import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import PostHeader from "@/app/components/PostHeader";
 import Footer from "@/app/components/Footer";
+import ImageCarousel from "@/app/components/ImageCarousel";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -69,11 +70,24 @@ export default async function PostPage(props: Props) {
     return notFound();
   }
 
+  const allImages = [
+    ...(post.coverImage
+      ? [
+          {
+            _key: "cover",
+            alt: post.coverImage.alt,
+            asset: post.coverImage.asset,
+          },
+        ]
+      : []),
+    ...(post.images ?? []),
+  ];
+
   return (
     <div className="bg-gradient-to-b from-[#0a192f] via-[#0a192f] to-gray-900 text-gray-300 min-h-screen">
       <PostHeader PostTitle={post.title} />
-      
-      <main className="pt-24"> {/* Added padding for fixed header */}
+
+      <main className="pt-24">
         <div className="justify-center container mx-auto px-4 my-12 lg:my-24 grid gap-12">
           <div>
             <div className="pb-6 grid gap-6 mb-6 border-b border-gray-700">
@@ -93,10 +107,11 @@ export default async function PostPage(props: Props) {
                   )}
               </div>
             </div>
+
             <article className="gap-8 grid max-w-4xl">
-              <div className="rounded-lg overflow-hidden shadow-xl">
-                <CoverImage image={post.coverImage} priority />
-              </div>
+              {allImages.length > 0 && (
+                <ImageCarousel images={allImages} youtubeUrl={post.youtube} />
+              )}
               {post.content?.length && (
                 <PortableText
                   className="max-w-2xl text-gray-300 prose prose-invert prose-cyan"

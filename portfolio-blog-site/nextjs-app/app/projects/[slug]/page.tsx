@@ -61,9 +61,9 @@ export default async function ProjectPage(props: Props) {
 
   // Merge coverImage as the first slide, followed by any extra images
   const allImages = [
-    ...(project.coverImage ? [{ _key: "cover", alt: project.coverImage.alt, asset: project.coverImage.asset }] : []),
+    ...(project.coverImage?.asset ? [{ _key: "cover", alt: project.coverImage.alt, asset: project.coverImage.asset }] : []),
     ...(project.images ?? []),
-  ];
+  ].filter((img) => img.asset);
 
 
 

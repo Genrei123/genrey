@@ -71,17 +71,9 @@ export default async function PostPage(props: Props) {
   }
 
   const allImages = [
-    ...(post.coverImage
-      ? [
-          {
-            _key: "cover",
-            alt: post.coverImage.alt,
-            asset: post.coverImage.asset,
-          },
-        ]
-      : []),
+    ...(post.coverImage?.asset ? [{ _key: "cover", alt: post.coverImage.alt, asset: post.coverImage.asset }] : []),
     ...(post.images ?? []),
-  ];
+  ].filter((img) => img.asset);
 
   return (
     <div className="bg-gradient-to-b from-[#0a192f] via-[#0a192f] to-gray-900 text-gray-300 min-h-screen">

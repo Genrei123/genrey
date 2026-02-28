@@ -7,7 +7,7 @@ import { urlForImage } from "@/sanity/lib/utils"; // adjust import to match your
 type CarouselImage = {
   _key?: string;
   alt?: string;
-  asset: {
+  asset?: {
     _ref: string;
     _type: string;
   };

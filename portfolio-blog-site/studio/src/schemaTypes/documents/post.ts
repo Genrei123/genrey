@@ -82,6 +82,37 @@ export const post = defineType({
       type: 'reference',
       to: [{type: 'person'}],
     }),
+    defineField({
+      name: 'youtube',
+      title: 'YouTube Video URL',
+      type: 'url',
+      description: 'Add a YouTube video URL to embed it in the post.',
+    }),
+    defineField({
+      name: 'images',
+      title: 'Project Images',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+            aiAssist: {
+              imageDescriptionField: 'alt',
+            },
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+              description: 'Important for SEO and accessibility.',
+              validation: (rule) => rule.required(),
+            },
+          ],
+        },
+      ],
+    }),
   ],
   // List preview configuration. https://www.sanity.io/docs/previews-list-views
   preview: {

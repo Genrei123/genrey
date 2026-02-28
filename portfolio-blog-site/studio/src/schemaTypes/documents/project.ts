@@ -42,6 +42,12 @@ export const project = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'youtube',
+      title: 'YouTube Video URL',
+      type: 'url',
+      description: 'Add a YouTube video URL to embed it in the post.',
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
@@ -69,6 +75,31 @@ export const project = defineType({
         },
       ],
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'images',
+      title: 'Project Images',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: {
+            hotspot: true,
+            aiAssist: {
+              imageDescriptionField: 'alt',
+            },
+          },
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alternative text',
+              description: 'Important for SEO and accessibility.',
+              validation: (rule) => rule.required(),
+            },
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'date',

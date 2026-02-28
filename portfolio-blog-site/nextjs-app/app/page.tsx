@@ -1,27 +1,49 @@
 // page.tsx
-import { AllPosts } from "@/app/components/Posts";
-import { AllProject } from "./components/Project";
-import { AllGallery } from "./components/Gallery";
+import { Suspense } from "react";
+import { AllProject } from "./components/Projects/AllProject";
 import ClientPortfolio from "./ClientPortfolio";
 import Footer from "./components/Footer";
-import { Certificates } from "./components/Certificates";
+import { Certificates } from "./components/Certificates/Certificates";
+import { Experience } from "./experience/Experience";
+import { AllPosts } from "./components/Blogs/AllPosts";
+import { SectionLoader } from "./components/SectionLoader";
+import { AllGallery } from "./components/Gallery/AllGallery";
+import AllTechStack from "./components/TechStack/AllTechstack";
 
 export default async function Page() {
-  // Pre-fetch the data for server components
-  const posts = await AllPosts();
-  const projects = await AllProject();
-  const gallery = await AllGallery();
-  const certificates = await Certificates();
-
-  
-
   return (
     <>
       <ClientPortfolio
-        postsComponent={posts}
-        projectsComponent={projects}
-        galleryComponent={gallery}
-        certificatesComponent={certificates}
+        postsComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <AllPosts />
+          </Suspense>
+        }
+        projectsComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <AllProject />
+          </Suspense>
+        }
+        galleryComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <AllGallery />
+          </Suspense>
+        }
+        certificatesComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <Certificates />
+          </Suspense>
+        }
+        experienceComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <Experience />
+          </Suspense>
+        }
+        techStackComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <AllTechStack />
+          </Suspense>
+        }
       />
       <Footer />
     </>

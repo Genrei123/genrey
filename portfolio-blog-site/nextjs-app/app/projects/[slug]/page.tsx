@@ -5,7 +5,7 @@ import { Suspense } from "react";
 
 import Avatar from "@/app/components/Avatar";
 import CoverImage from "@/app/components/CoverImage";
-import { MoreProjects } from "../../components/Project";
+import { MoreProjects } from "../../components/Projects/AllProject";
 import PortableText from "@/app/components/PortableText";
 import { sanityFetch } from "@/sanity/lib/live";
 import { projectPagesSlugs, projectQuery } from "@/sanity/lib/queries";

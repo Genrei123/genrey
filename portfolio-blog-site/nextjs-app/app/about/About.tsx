@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect } from 'react';;
 
 interface AboutProps {
     id: string;

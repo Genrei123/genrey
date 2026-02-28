@@ -33,6 +33,7 @@ const galleryFields = /* groq */ `
   },
   hotspot,
   crop,
+  title,
   description,
   image {
     _type,
@@ -57,6 +58,7 @@ const certicateFields = /* groq */ `
     _weak,
   },
   hotspot,
+  title,
   crop,
   description,
   image {
@@ -72,6 +74,40 @@ const certicateFields = /* groq */ `
   alt,
   caption,
   credit
+`;
+
+const experienceFields = /* groq */ `
+  role,
+  company,
+  duration,
+  description,
+  icon {
+    _type,
+    asset {
+      _ref,
+      _type,
+      _weak,
+    },
+    hotspot,
+    crop,
+  },
+  responsibilities,
+  link
+`;
+
+const techStackFields = /* groq */ `
+  title,
+  description,
+  image {
+    _type,
+    asset {
+      _ref,
+      _type,
+      _weak,
+    },
+    hotspot,
+    crop,
+  },
 `;
 
 const linkReference = /* groq */ `
@@ -154,6 +190,18 @@ export const allCertificateQuery = defineQuery(`
   }
 `);
 
+export const allExperienceQuery = defineQuery(`
+  *[_type == "experience"] | order(duration desc) {
+    ${experienceFields}
+  }
+`);
+
+export const allTechStackQuery = defineQuery(`
+  *[_type == "techStack"] | order(title asc) {
+    ${techStackFields}
+  }
+`);
+
 export const morePostsQuery = defineQuery(`
   *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
     ${postFields}
@@ -206,5 +254,6 @@ export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
 `);
+
 
 

@@ -2,16 +2,16 @@
 
 import { useState, useEffect, ReactNode } from "react";
 import About from "./about/About"; 
-import Experience from "./experience/Experience";
 import { motion } from "framer-motion";
 import Header from "./components/Header";
-import Certificates from "./components/Certificates";
 
 interface ClientPortfolioProps {
   postsComponent: ReactNode;
   projectsComponent: ReactNode;
   galleryComponent: ReactNode;
   certificatesComponent: ReactNode;
+  experienceComponent: ReactNode;
+  techStackComponent: ReactNode;
 }
 
 // --- Section Wrapper (with refined animations) ---
@@ -60,7 +60,7 @@ const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperP
 
 
 // --- Main Portfolio Component ---
-export default function ClientPortfolio({ postsComponent, projectsComponent, galleryComponent, certificatesComponent }: ClientPortfolioProps) {
+export default function ClientPortfolio({ postsComponent, projectsComponent, galleryComponent, certificatesComponent, experienceComponent, techStackComponent }: ClientPortfolioProps) {
   const [activeSection, setActiveSection] = useState<string>("about");
 
   return (
@@ -80,9 +80,11 @@ export default function ClientPortfolio({ postsComponent, projectsComponent, gal
             {/* TODO: Add animations inside the Experience component for timeline items */}
           </SectionWrapper>
 
+          {techStackComponent || <LoadingPlaceholder />}
+
           {/* Use SectionWrapper for the rest */}
           <SectionWrapper id="experience" title="Experience" className="bg-black bg-opacity-10">
-            <Experience />
+            {experienceComponent || <LoadingPlaceholder />}
             {/* TODO: Add animations inside the Experience component for timeline items */}
           </SectionWrapper>
 

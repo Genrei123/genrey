@@ -183,7 +183,7 @@ export const allProjectsQuery = defineQuery(`
 `);
 
 export const allGalleryImagesQuery = defineQuery(`
-  *[_type == "gallery"][0...20] {
+  *[_type == "gallery"][0...100] {
     ${galleryFields}
   }
 `);

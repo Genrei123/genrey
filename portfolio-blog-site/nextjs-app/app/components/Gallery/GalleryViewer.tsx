@@ -90,7 +90,7 @@ function Lightbox({
         >
           {/* Image pane */}
           <div
-            className="relative flex-1 bg-zinc-950 flex items-center justify-center min-w-0 overflow-hidden select-none"
+            className="relative flex-1 bg-zinc-950 flex items-center justify-center min-w-0 overflow-hidden select-none max-h-[50vh] md:max-h-[90vh]"
             style={{ cursor: swiping ? "grabbing" : "grab" }}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}

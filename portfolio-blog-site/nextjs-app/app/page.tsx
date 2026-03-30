@@ -25,9 +25,7 @@ export default async function Page() {
           </Suspense>
         }
         galleryComponent={
-          <Suspense fallback={<SectionLoader />}>
-            <AllGallery />
-          </Suspense>
+          <AllGallery />
         }
         certificatesComponent={
           <Suspense fallback={<SectionLoader />}>

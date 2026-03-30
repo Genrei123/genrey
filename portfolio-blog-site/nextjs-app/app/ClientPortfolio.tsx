@@ -31,7 +31,7 @@ const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperP
             className="text-3xl sm:text-4xl font-bold text-white mb-10 sm:mb-14 inline-block relative pb-2"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.5 }} // Trigger when 50% visible
+            viewport={{ once: true, amount: 0.05 }} // Trigger when 50% visible
             transition={{ duration: 0.5, delay: 0.1 }}
          >
             {title}
@@ -40,7 +40,7 @@ const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperP
                className="absolute bottom-0 left-0 h-1 bg-cyan-400"
                initial={{ width: 0 }}
                whileInView={{ width: '60%' }} // Animate width
-               viewport={{ once: true, amount: 0.5 }}
+               viewport={{ once: true, amount: 0.05 }}
                transition={{ duration: 0.6, delay: 0.4 }} // Delay after text appears
             />
          </motion.h2>
@@ -48,7 +48,7 @@ const SectionWrapper = ({ id, title, children, className = "" }: SectionWrapperP
          <motion.div
             initial={{ opacity: 0, y: 40 }} // Start slightly lower
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }} // Trigger earlier
+            viewport={{ once: true, amount: 0.02 }} // Trigger earlier
             transition={{ duration: 0.6, delay: 0.2 }} // Add small delay
          >
             {children}

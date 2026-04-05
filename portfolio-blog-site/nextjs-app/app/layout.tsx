@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
       default: title,
     },
     description: toPlainText(description),
-    keywords: ["Genrey", "Portfolio", "Web Developer", "Software Engineer", "Fullstack Developer"],
+    keywords: ["Genrey", "Portfolio", "Web Developer", "Software Engineer", "Developer"],
     authors: [{ name: "Genrey Cristobal" }],
     viewport: "width=device-width, initial-scale=1.0",
     themeColor: "#1b263b",

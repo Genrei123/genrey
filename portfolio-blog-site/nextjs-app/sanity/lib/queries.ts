@@ -117,9 +117,101 @@ const techStackFields = /* groq */ `
 const linkReference = /* groq */ `
   _type == "link" => {
     "page": page->slug.current,
-    "post": post->slug.current
+    "post": post->slug.current,
+    "project": project->slug.current
   }
 `;
+
+const aboutSettingsFields = /* groq */ `
+  about {
+    eyebrow,
+    heading,
+    description,
+    primaryAction {
+      label,
+      link {
+        ...,
+        ${linkReference}
+      }
+    },
+    secondaryAction {
+      label,
+      link {
+        ...,
+        ${linkReference}
+      }
+    },
+    socialLinks[] {
+      _key,
+      label,
+      link {
+        ...,
+        ${linkReference}
+      }
+    },
+    timelineTitle,
+    timelineItems[] {
+      _key,
+      date,
+      title,
+      impact,
+      outcomes,
+      image {
+        _type,
+        asset {
+          _ref,
+          _type,
+          _weak,
+        },
+        hotspot,
+        crop,
+        alt,
+      },
+      link {
+        ...,
+        ${linkReference}
+      },
+    }
+  }
+`;
+
+export const aboutSettingsQuery = defineQuery(`
+  *[_type == "settings"][0]{
+    ${aboutSettingsFields}
+  }
+`);
+
+export const testimoniesQuery = defineQuery(`
+  *[_type == "testimonies"][0]{
+    sectionTitle,
+    items[] {
+      _key,
+      title,
+      subtitle,
+      subtitleIcon {
+        _type,
+        asset {
+          _ref,
+          _type,
+          _weak,
+        },
+        alt,
+      },
+      description,
+      images[] {
+        _type,
+        asset {
+          _ref,
+          _type,
+          _weak,
+        },
+        hotspot,
+        crop,
+        alt,
+      }
+    }
+  }
+`);
 
 const linkFields = /* groq */ `
   link {

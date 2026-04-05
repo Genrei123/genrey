@@ -9,11 +9,18 @@ import { AllPosts } from "./components/Blogs/AllPosts";
 import { SectionLoader } from "./components/SectionLoader";
 import { AllGallery } from "./components/Gallery/AllGallery";
 import AllTechStack from "./components/TechStack/AllTechstack";
+import { Testimonies } from "./components/Testimonies/Testimonies";
+import { sanityFetch } from "@/sanity/lib/live";
+import { aboutSettingsQuery, testimoniesQuery } from "@/sanity/lib/queries";
 
 export default async function Page() {
+  const { data: settings } = await sanityFetch({ query: aboutSettingsQuery });
+  const { data: testimonies } = await sanityFetch({ query: testimoniesQuery });
+
   return (
     <>
       <ClientPortfolio
+        aboutData={settings?.about}
         postsComponent={
           <Suspense fallback={<SectionLoader />}>
             <AllPosts />
@@ -30,6 +37,11 @@ export default async function Page() {
         certificatesComponent={
           <Suspense fallback={<SectionLoader />}>
             <Certificates />
+          </Suspense>
+        }
+        testimoniesComponent={
+          <Suspense fallback={<SectionLoader />}>
+            <Testimonies data={testimonies} />
           </Suspense>
         }
         experienceComponent={

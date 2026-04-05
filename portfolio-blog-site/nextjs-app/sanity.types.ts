@@ -587,8 +587,16 @@ export type SettingsQueryResult = {
     _type: "image";
   };
 } | null;
+// Variable: aboutSettingsQuery
+// Query: *[_type == "settings"][0]{      about {    eyebrow,    heading,    description,    primaryAction {      label,      link {        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }      }    },    secondaryAction {      label,      link {        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }      }    },    socialLinks[] {      _key,      label,      link {        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }      }    },    timelineTitle,    timelineItems[] {      _key,      date,      title,      impact,      outcomes,      image {        _type,        asset {          _ref,          _type,          _weak,        },        hotspot,        crop,        alt,      },      link {        ...,          _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }      },    }  }  }
+export type AboutSettingsQueryResult = {
+  about: null;
+} | null;
+// Variable: testimoniesQuery
+// Query: *[_type == "testimonies"][0]{    sectionTitle,    items[] {      _key,      title,      subtitle,      description,      images[] {        _type,        asset {          _ref,          _type,          _weak,        },        hotspot,        crop,        alt,      }    }  }
+export type TestimoniesQueryResult = null;
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      },      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }      },      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }          }        }      },    },  }
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -608,12 +616,7 @@ export type GetPageQueryResult = {
       href?: string;
       page: string | null;
       post: string | null;
-      project?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "project";
-      };
+      project: string | null;
       openInNewTab?: boolean;
     } | null;
   } | {
@@ -638,6 +641,7 @@ export type GetPageQueryResult = {
         openInNewTab?: boolean;
         _type: "link";
         _key: string;
+        project: null;
       }> | null;
       level?: number;
       _type: "block";
@@ -884,7 +888,7 @@ export type MoreProjectQueryResult = Array<{
   } | null;
 }>;
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  images,  youtube,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
+// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  images,  youtube,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
 export type PostQueryResult = {
   content: Array<{
     children?: Array<{
@@ -903,6 +907,7 @@ export type PostQueryResult = {
       openInNewTab?: boolean;
       _type: "link";
       _key: string;
+      project: null;
     }> | null;
     level?: number;
     _type: "block";
@@ -946,7 +951,7 @@ export type PostQueryResult = {
   } | null;
 } | null;
 // Variable: projectQuery
-// Query: *[_type == "project" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  images,  youtube,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
+// Query: *[_type == "project" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "project": project->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  images,  youtube,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
 export type ProjectQueryResult = {
   content: Array<{
     children?: Array<{
@@ -965,6 +970,7 @@ export type ProjectQueryResult = {
       openInNewTab?: boolean;
       _type: "link";
       _key: string;
+      project: null;
     }> | null;
     level?: number;
     _type: "block";
@@ -1028,7 +1034,9 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"settings\"][0]": SettingsQueryResult;
-    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        \n  link {\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n      }\n,\n      },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
+    "\n  *[_type == \"settings\"][0]{\n    \n  about {\n    eyebrow,\n    heading,\n    description,\n    primaryAction {\n      label,\n      link {\n        ...,\n        \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n      }\n    },\n    secondaryAction {\n      label,\n      link {\n        ...,\n        \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n      }\n    },\n    socialLinks[] {\n      _key,\n      label,\n      link {\n        ...,\n        \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n      }\n    },\n    timelineTitle,\n    timelineItems[] {\n      _key,\n      date,\n      title,\n      impact,\n      outcomes,\n      image {\n        _type,\n        asset {\n          _ref,\n          _type,\n          _weak,\n        },\n        hotspot,\n        crop,\n        alt,\n      },\n      link {\n        ...,\n        \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n      },\n    }\n  }\n\n  }\n": AboutSettingsQueryResult;
+    "\n  *[_type == \"testimonies\"][0]{\n    sectionTitle,\n    items[] {\n      _key,\n      title,\n      subtitle,\n      description,\n      images[] {\n        _type,\n        asset {\n          _ref,\n          _type,\n          _weak,\n        },\n        hotspot,\n        crop,\n        alt,\n      }\n    }\n  }\n": TestimoniesQueryResult;
+    "\n  *[_type == 'page' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    \"pageBuilder\": pageBuilder[]{\n      ...,\n      _type == \"callToAction\" => {\n        \n  link {\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n      }\n,\n      },\n      _type == \"infoSection\" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n": GetPageQueryResult;
     "\n  *[_type == \"project\" || _type == \"page\" || _type == \"post\" && defined(slug.current)] | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt,\n  }\n": SitemapDataResult;
     "\n  *[_type == \"page\" || _type == \"project\" && defined(slug.current)] | order(_type asc) {\n    \"slug\": slug.current,\n    _type,\n    _updatedAt,\n  }\n": SitemapDataProjectResult;
     "\n  *[_type == \"post\" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": AllPostsQueryResult;
@@ -1039,8 +1047,8 @@ declare module "@sanity/client" {
     "\n  *[_type == \"techStack\"] | order(title asc) {\n    \n  title,\n  description,\n  image {\n    _type,\n    asset {\n      _ref,\n      _type,\n      _weak,\n    },\n    hotspot,\n    crop,\n  },\n\n  }\n": AllTechStackQueryResult;
     "\n  *[_type == \"post\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": MorePostsQueryResult;
     "\n  *[_type == \"project\" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": MoreProjectQueryResult;
-    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
-    "\n  *[_type == \"project\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": ProjectQueryResult;
+    "\n  *[_type == \"post\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": PostQueryResult;
+    "\n  *[_type == \"project\" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == \"link\" => {\n    \"page\": page->slug.current,\n    \"post\": post->slug.current,\n    \"project\": project->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  \"status\": select(_originalId in path(\"drafts.**\") => \"draft\", \"published\"),\n  \"title\": coalesce(title, \"Untitled\"),\n  \"slug\": slug.current,\n  excerpt,\n  coverImage,\n  images,\n  youtube,\n  \"date\": coalesce(date, _updatedAt),\n  \"author\": author->{firstName, lastName, picture},\n\n  }\n": ProjectQueryResult;
     "\n  *[_type == \"post\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PostPagesSlugsResult;
     "\n  *[_type == \"project\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": ProjectPagesSlugsResult;
     "\n  *[_type == \"page\" && defined(slug.current)]\n  {\"slug\": slug.current}\n": PagesSlugsResult;

@@ -95,6 +95,104 @@ export const settings = defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'about',
+      title: 'About Page',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'eyebrow',
+          title: 'Eyebrow',
+          type: 'string',
+          initialValue: 'Full-Stack Developer • Team Lead • Mentor',
+        }),
+        defineField({
+          name: 'heading',
+          title: 'Headline',
+          type: 'string',
+          initialValue: 'Building reliable software that solves real-world problems.',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'description',
+          title: 'Description',
+          type: 'text',
+          initialValue:
+            "I'm Genrey, a full-stack developer focused on practical products—from clinic management systems to AI-assisted platforms. I enjoy turning complex requirements into clean, maintainable solutions and helping teams ship with confidence.",
+        }),
+        defineField({
+          name: 'primaryAction',
+          title: 'Primary action',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              initialValue: "Let's Have a Talk",
+            }),
+            defineField({
+              name: 'link',
+              title: 'Link',
+              type: 'link',
+            }),
+          ],
+        }),
+        defineField({
+          name: 'secondaryAction',
+          title: 'Secondary action',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              initialValue: 'View Resume',
+            }),
+            defineField({
+              name: 'link',
+              title: 'Link',
+              type: 'link',
+            }),
+          ],
+        }),
+        defineField({
+          name: 'socialLinks',
+          title: 'Social links',
+          type: 'array',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'label',
+                  title: 'Label',
+                  type: 'string',
+                  validation: (Rule) => Rule.required(),
+                }),
+                defineField({
+                  name: 'link',
+                  title: 'Link',
+                  type: 'link',
+                }),
+              ],
+            }),
+          ],
+        }),
+        defineField({
+          name: 'timelineTitle',
+          title: 'Timeline title',
+          type: 'string',
+          initialValue: 'Projects / Achievements',
+        }),
+        defineField({
+          name: 'timelineItems',
+          title: 'Timeline items',
+          type: 'array',
+          of: [{type: 'timelineItem'}],
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare() {

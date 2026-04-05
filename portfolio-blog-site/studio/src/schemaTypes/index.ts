@@ -11,6 +11,8 @@ import {project} from './documents/project'
 import { certificates } from './documents/certificates'
 import { experience } from './documents/experience'
 import { techStack } from './documents/techStack'
+import { testimonies } from './documents/testimonies'
+import { timelineItem } from './objects/timelineItem'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/schema-types
 
@@ -24,6 +26,7 @@ export const schemaTypes = [
   project,
   gallery,
   certificates,
+  testimonies,
   experience,
   techStack,
   // Objects
@@ -31,4 +34,5 @@ export const schemaTypes = [
   infoSection,
   callToAction,
   link,
+  timelineItem,
 ]

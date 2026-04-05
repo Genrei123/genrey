@@ -152,19 +152,21 @@ export function DocumentCarousel({ data }: { data?: TestimoniesContent | null })
   const [imageIndex, setImageIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const active = items[activeIndex] ?? items[0];
-  if (!active) return null;
-  const activeImage = active.images[imageIndex] || active.images[0];
+  const active = items[activeIndex] ?? items[0] ?? fallbackDocuments[0];
+  const activeImages = active?.images?.length
+    ? active.images
+    : [{ src: "/logo.jpg", alt: "Document preview" }];
+  const activeImage = activeImages[imageIndex] || activeImages[0];
 
   const goNext = () => setActiveIndex((prev) => (prev + 1) % items.length);
   const goPrev = () =>
     setActiveIndex((prev) => (prev - 1 + items.length) % items.length);
 
   const goNextImage = () =>
-    setImageIndex((prev) => (prev + 1) % active.images.length);
+    setImageIndex((prev) => (prev + 1) % activeImages.length);
 
   const goPrevImage = () =>
-    setImageIndex((prev) => (prev - 1 + active.images.length) % active.images.length);
+    setImageIndex((prev) => (prev - 1 + activeImages.length) % activeImages.length);
 
   useEffect(() => {
     setImageIndex(0);
@@ -178,9 +180,9 @@ export function DocumentCarousel({ data }: { data?: TestimoniesContent | null })
 
   useEffect(() => {
     setImageIndex((currentIndex) =>
-      active.images.length === 0 ? 0 : Math.min(currentIndex, active.images.length - 1),
+      activeImages.length === 0 ? 0 : Math.min(currentIndex, activeImages.length - 1),
     );
-  }, [active]);
+  }, [activeImages.length]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -226,7 +228,7 @@ export function DocumentCarousel({ data }: { data?: TestimoniesContent | null })
                 Prev Image
               </button>
               <p className="text-xs text-gray-300">
-                Image {imageIndex + 1} / {active.images.length}
+                Image {imageIndex + 1} / {activeImages.length}
               </p>
               <button
                 type="button"
@@ -291,7 +293,7 @@ export function DocumentCarousel({ data }: { data?: TestimoniesContent | null })
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
             <p className="text-xs text-gray-400">
-              Image {imageIndex + 1} / {active.images.length}
+              Image {imageIndex + 1} / {activeImages.length}
             </p>
             <div className="flex items-center gap-3">
               <button

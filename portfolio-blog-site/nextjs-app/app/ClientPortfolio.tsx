@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, ReactNode } from "react";
-import About, { type AboutContent } from "./about/About";
+import About, { type AboutContent, type SanityLink } from "./about/About";
 import { motion } from "framer-motion";
 import Header from "./components/Header";
 
@@ -82,6 +82,23 @@ export default function ClientPortfolio({
 }: ClientPortfolioProps) {
   const [activeSection, setActiveSection] = useState<string>("about");
 
+  const contactCta = aboutData?.contactCta;
+  const primaryContactLink =
+    resolveLinkHref(contactCta?.primaryLink) ||
+    resolveLinkHref(aboutData?.primaryAction?.link) ||
+    "mailto:genreycristobal03@gmail.com";
+  const secondaryContactLink =
+    resolveLinkHref(contactCta?.secondaryLink) ||
+    resolveLinkHref(aboutData?.socialLinks?.find((link) => link?.label?.toLowerCase().includes("linkedin"))?.link) ||
+    "https://www.linkedin.com/in/genrey-cristobal-9b0056267/";
+  const ctaEyebrow = contactCta?.eyebrow || "Let's collaborate";
+  const ctaHeading = contactCta?.heading || "Interested in working together?";
+  const ctaText =
+    contactCta?.text ||
+    "If my background and certifications align with your needs, let’s connect and discuss your project.";
+  const primaryButtonText = contactCta?.primaryButtonText || "Contact Me";
+  const secondaryButtonText = contactCta?.secondaryButtonText || "View LinkedIn";
+
   return (
     <>
       {/* Using a slightly different gradient and ensuring text contrasts */}
@@ -124,6 +141,15 @@ export default function ClientPortfolio({
             className="bg-black bg-opacity-10"
           >
             {certificatesComponent || <LoadingPlaceholder />}
+            <ContactCTA
+              primaryLink={primaryContactLink}
+              secondaryLink={secondaryContactLink}
+              eyebrow={ctaEyebrow}
+              heading={ctaHeading}
+              text={ctaText}
+              primaryButtonText={primaryButtonText}
+              secondaryButtonText={secondaryButtonText}
+            />
             {/* TODO: Add animations inside the Experience component for timeline items */}
           </SectionWrapper>
 
@@ -173,3 +199,87 @@ const LoadingPlaceholder = () => (
     </div>
   </div>
 );
+
+function resolveLinkHref(link?: SanityLink | null): string | null {
+  if (!link) return null;
+
+  switch (link.linkType) {
+    case "page":
+      return link.page ? `/${link.page}` : null;
+    case "post":
+      return link.post ? `/posts/${link.post}` : null;
+    case "project":
+      return link.project ? `/${link.project}` : null;
+    case "href":
+      return link.href || null;
+    default:
+      return null;
+  }
+}
+
+const ContactCTA = ({
+  primaryLink,
+  secondaryLink,
+  eyebrow,
+  heading,
+  text,
+  primaryButtonText,
+  secondaryButtonText,
+}: {
+  primaryLink: string;
+  secondaryLink: string;
+  eyebrow: string;
+  heading: string;
+  text: string;
+  primaryButtonText: string;
+  secondaryButtonText: string;
+}) => {
+  const openPrimaryInNewTab = !primaryLink.startsWith("/") && !primaryLink.startsWith("#") && !primaryLink.startsWith("mailto:");
+  const openSecondaryInNewTab = !secondaryLink.startsWith("/") && !secondaryLink.startsWith("#") && !secondaryLink.startsWith("mailto:");
+
+  return (
+    <motion.div
+      className="mt-10 sm:mt-14 rounded-2xl border border-cyan-400/30 bg-gradient-to-r from-gray-900/90 to-gray-800/80 p-6 sm:p-8"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p className="text-cyan-300 text-sm font-semibold tracking-wide uppercase mb-2">{eyebrow}</p>
+          <h3 className="text-white text-2xl sm:text-3xl font-bold">{heading}</h3>
+          <p className="text-gray-300 mt-2 max-w-xl">{text}</p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:shrink-0">
+          <motion.a
+            href={primaryLink}
+            target={openPrimaryInNewTab ? "_blank" : undefined}
+            rel={openPrimaryInNewTab ? "noreferrer" : undefined}
+            className="inline-flex items-center justify-center rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-gray-950 hover:bg-cyan-300 transition-colors"
+            whileHover={{
+              x: [0, -2, 2, -1, 1, 0],
+              y: [0, -1, 1, -1, 1, 0],
+              transition: { duration: 0.35, ease: "easeInOut" },
+            }}
+          >
+            {primaryButtonText}
+          </motion.a>
+          <motion.a
+            href={secondaryLink}
+            target={openSecondaryInNewTab ? "_blank" : undefined}
+            rel={openSecondaryInNewTab ? "noreferrer" : undefined}
+            className="inline-flex items-center justify-center rounded-full border border-cyan-300/60 px-6 py-3 text-sm font-semibold text-cyan-100 hover:bg-cyan-400/10 transition-colors"
+            whileHover={{
+              x: [0, 2, -2, 1, -1, 0],
+              transition: { duration: 0.35, ease: "easeInOut" },
+            }}
+          >
+            {secondaryButtonText}
+          </motion.a>
+        </div>
+      </div>
+    </motion.div>
+  );
+};

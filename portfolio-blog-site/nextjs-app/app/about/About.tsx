@@ -47,6 +47,15 @@ export type AboutContent = {
     label?: string;
     link?: SanityLink | null;
   }>;
+  contactCta?: {
+    eyebrow?: string;
+    heading?: string;
+    text?: string;
+    primaryButtonText?: string;
+    primaryLink?: SanityLink | null;
+    secondaryButtonText?: string;
+    secondaryLink?: SanityLink | null;
+  } | null;
   timelineTitle?: string;
   timelineItems?: AboutTimelineItem[];
 };

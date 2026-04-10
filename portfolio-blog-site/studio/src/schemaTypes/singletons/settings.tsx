@@ -180,6 +180,55 @@ export const settings = defineType({
           ],
         }),
         defineField({
+          name: 'contactCta',
+          title: 'Contact CTA',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'eyebrow',
+              title: 'Eyebrow',
+              type: 'string',
+              initialValue: "Let's collaborate",
+            }),
+            defineField({
+              name: 'heading',
+              title: 'Heading',
+              type: 'string',
+              initialValue: 'Interested in working together?',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'text',
+              title: 'Text',
+              type: 'text',
+              initialValue:
+                "If my background and certifications align with your needs, let's connect and discuss your project.",
+            }),
+            defineField({
+              name: 'primaryButtonText',
+              title: 'Primary button text',
+              type: 'string',
+              initialValue: 'Contact Me',
+            }),
+            defineField({
+              name: 'primaryLink',
+              title: 'Primary link',
+              type: 'link',
+            }),
+            defineField({
+              name: 'secondaryButtonText',
+              title: 'Secondary button text',
+              type: 'string',
+              initialValue: 'View LinkedIn',
+            }),
+            defineField({
+              name: 'secondaryLink',
+              title: 'Secondary link',
+              type: 'link',
+            }),
+          ],
+        }),
+        defineField({
           name: 'timelineTitle',
           title: 'Timeline title',
           type: 'string',

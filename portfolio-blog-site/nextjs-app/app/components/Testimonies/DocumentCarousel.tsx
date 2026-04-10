@@ -254,7 +254,7 @@ export function DocumentCarousel({ data }: { data?: TestimoniesContent | null })
       <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-stretch">
         <div className="relative rounded-xl border border-gray-700 p-5 sm:p-6">
           {active.subtitleIcon && (
-            <div className="absolute right-4 top-4 sm:right-5 sm:top-5">
+            <div className="absolute right-4 hidden lg:block lg:top-4 sm:right-5 sm:top-5">
               <Image
                 src={active.subtitleIcon.src}
                 alt={active.subtitleIcon.alt}

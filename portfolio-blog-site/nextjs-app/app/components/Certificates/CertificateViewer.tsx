@@ -107,7 +107,10 @@ function Lightbox({
 export function CertificateViewer({ data }: { data: any[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [visible,     setVisible]     = useState(false);
+  const [isDesktop,   setIsDesktop]   = useState(false);
   const containerRef                  = useRef<HTMLDivElement>(null);
+
+  const visibleCertificates = isDesktop ? data.slice(0, 9) : data.slice(0, 3);
 
   // Scroll-triggered entrance
   useEffect(() => {
@@ -121,9 +124,33 @@ export function CertificateViewer({ data }: { data: any[] }) {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      setIsDesktop(event.matches);
+    };
+
+    setIsDesktop(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleViewportChange);
+
+    return () => mediaQuery.removeEventListener("change", handleViewportChange);
+  }, []);
+
+  useEffect(() => {
+    if (activeIndex !== null && activeIndex >= visibleCertificates.length) {
+      setActiveIndex(null);
+    }
+  }, [activeIndex, visibleCertificates.length]);
+
   const close = useCallback(() => setActiveIndex(null), []);
-  const prev  = useCallback(() => setActiveIndex((i) => (i! === 0 ? data.length - 1 : i! - 1)), [data.length]);
-  const next  = useCallback(() => setActiveIndex((i) => (i! === data.length - 1 ? 0 : i! + 1)), [data.length]);
+  const prev  = useCallback(
+    () => setActiveIndex((i) => (i! === 0 ? visibleCertificates.length - 1 : i! - 1)),
+    [visibleCertificates.length]
+  );
+  const next  = useCallback(
+    () => setActiveIndex((i) => (i! === visibleCertificates.length - 1 ? 0 : i! + 1)),
+    [visibleCertificates.length]
+  );
 
   return (
     <>
@@ -137,8 +164,8 @@ export function CertificateViewer({ data }: { data: any[] }) {
             transition: "opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.34,1.56,.64,1)",
           }}
         >
-        <div className="grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {data.map((cert, itemIndex) => (
+        <div className="grid w-full gap-4 grid-cols-1 lg:grid-cols-3">
+          {visibleCertificates.map((cert, itemIndex) => (
             <button
               key={cert._id ?? cert.title ?? itemIndex}
               type="button"
@@ -163,7 +190,7 @@ export function CertificateViewer({ data }: { data: any[] }) {
 
       {activeIndex !== null && (
         <Lightbox
-          data={data}
+          data={visibleCertificates}
           index={activeIndex}
           onClose={close}
           onPrev={prev}

@@ -149,6 +149,21 @@ const aboutSettingsFields = /* groq */ `
         ${linkReference}
       }
     },
+    contactCta {
+      eyebrow,
+      heading,
+      text,
+      primaryButtonText,
+      primaryLink {
+        ...,
+        ${linkReference}
+      },
+      secondaryButtonText,
+      secondaryLink {
+        ...,
+        ${linkReference}
+      }
+    },
     timelineTitle,
     timelineItems[] {
       _key,

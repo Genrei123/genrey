@@ -102,6 +102,15 @@ export default function ClientPortfolio({
           />
 
           <SectionWrapper
+            id="experience"
+            title="Experience"
+            className="bg-black bg-opacity-10"
+          >
+            {experienceComponent || <LoadingPlaceholder />}
+            {/* TODO: Add animations inside the Experience component for timeline items */}
+          </SectionWrapper>
+
+          <SectionWrapper
             id="testimonies"
             title="Testimonies & Supporting Documents"
             className="bg-black bg-opacity-10"
@@ -121,15 +130,6 @@ export default function ClientPortfolio({
           {techStackComponent || <LoadingPlaceholder />}
 
           {/* Use SectionWrapper for the rest */}
-          <SectionWrapper
-            id="experience"
-            title="Experience"
-            className="bg-black bg-opacity-10"
-          >
-            {experienceComponent || <LoadingPlaceholder />}
-            {/* TODO: Add animations inside the Experience component for timeline items */}
-          </SectionWrapper>
-
           <SectionWrapper id="projects" title="">
             {/* Suggestion: Wrap each project card in motion.div */}
             {/* Example: */}

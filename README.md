@@ -15,12 +15,3 @@ To preview and run the project locally simply run the following command in bash
   npm install & npm run dev
 ```
 Ensure Node.js is installed and enable running of scripts for Windows users.
-## Run Locally
-
-To preview and run the project locally simply run the following command in bash
-
-```bash
-  cd portfolio-blog-site
-  npm install & npm run dev
-```
-Ensure Node.js is installed and enable running of scripts for Windows

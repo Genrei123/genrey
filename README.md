@@ -1,8 +1,26 @@
-# blog-portfolio
-This is the source code of my blog portfolio!
-- I want to be able to publish my ideas
-- I want to be able to upload projects
-- I want to do this website once!
-- I want this to have an interactive and well composed UI
-- I want to expand my understanding in web development and CMS
-- Deployed in Vercel and Sanity
+# Genrey's Portfolio Website
+
+This Portfolio Website is created with the usage of Next.js, Tailwindcss + Sanity Studio.
+Contents are updated in the Sanity Studio while the styling and UI designs are updated with Next.js + Tailwindcss.
+
+This portfolio approach allows me to have consistent UI and dynamic content throughout the page.
+
+
+## Run Locally
+
+To preview and run the project locally simply run the following command in bash
+
+```bash
+  cd portfolio-blog-site
+  npm install & npm run dev
+```
+Ensure Node.js is installed and enable running of scripts for Windows users.
+## Run Locally
+
+To preview and run the project locally simply run the following command in bash
+
+```bash
+  cd portfolio-blog-site
+  npm install & npm run dev
+```
+Ensure Node.js is installed and enable running of scripts for Windows

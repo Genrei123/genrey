@@ -36,17 +36,16 @@ export const ExperienceViewer = (props: ExperienceProps) => {
   const { experiences } = props;
 
   return (
-    <div className="grid grid-cols-4 gap-4 mx-0 md:grid-cols-1 max-sm:grid-cols-1 lg:grid-cols-4 w-full">
+    <div className="flex gap-4 mx-0 w-full carousel rounded-box overflow-clip">
       {experiences.map((exp, index) => (
         <motion.div
           key={`exp-${exp.company}`}
-          className="p-6 bg-gray-800/50 rounded-lg shadow-md border border-gray-700/50 flex flex-col h-full"
+          className="p-6 bg-gray-800/50 rounded-lg shadow-md border border-gray-700/50 flex flex-col h-[600px] w-[1000px]"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.3, delay: index * 0.15 }}
           whileHover={{
-            scale: 1.15,
             boxShadow: "0 10px 15px -3px rgba(45, 212, 191, 0.1), 0 4px 6px -2px rgba(45, 212, 191, 0.05)",
             borderColor: "rgba(45, 212, 191, 0.5)",
             cursor: "pointer",
